@@ -59,6 +59,7 @@ def follow(request,username):
     curr_user = request.user
 
     toFollow = User.objects.get(username=username)
+
     following = Follow.objects.filter(user=curr_user,followed=toFollow)
     is_following = True if following else False
 
