@@ -3,14 +3,20 @@ from django.contrib.auth.models import User
 from django import forms
 
 
-
-
 class CreatUserForm(UserCreationForm):
 
+    email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','required': True}) )
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        fields = ['username','email','first_name','last_name', 'password1', 'password2']
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
+            match = User.objects.get(email = email)
+        except:
+            return self.cleaned_data['email']
+        raise forms.ValidationError("Email Already Exist.")
 
 
 class LoginForm(AuthenticationForm):
