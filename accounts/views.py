@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib import messages
 from .form import CreatUserForm,LoginForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from .models import Follow
 
 def Login(request):
 
@@ -49,3 +52,35 @@ def Register(request):
 def Logout(request):
     logout(request)
     return redirect('/')
+
+@login_required(redirect_field_name='login')
+def follow(request,username):
+    # Current User
+    curr_user = request.user
+
+    toFollow = User.objects.get(username=username)
+    following = Follow.objects.filter(user=curr_user,followed=toFollow)
+    is_following = True if following else False
+
+    if is_following:
+        # Unfollow the user
+        Follow.unfollow(curr_user,toFollow)
+        is_following = False
+    else:
+        #Follow the user
+        Follow.follow(curr_user,toFollow)
+        is_following=True
+
+    response ={'Following':is_following}
+
+    return JsonResponse(response)
+
+
+def userProfile(request,username):
+    user =User.objects.get(username=username)
+
+    following = Follow.objects.filter(user=request.user,followed=user)
+    is_following = True if following else False
+
+
+    return render(request,'accounts/user.html',{'user':user,'is_following':is_following})

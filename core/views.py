@@ -1,7 +1,8 @@
 from django.shortcuts import render
-
+from django.contrib.auth.models import User
 def home(request):
-    return render(request, 'core/home.html')
+    user = User.objects.all()
+    return render(request, 'core/home.html',{'detail':user})
 
 def about_us(request):
     return render(request, 'core/about_us.html')

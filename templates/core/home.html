@@ -1,4 +1,9 @@
 {% extends 'base.html'%}
 {% block content %}
 {% include 'components/home_navbar.html'%}
+<div class="container">
+    {% for i in detail %}
+        <p>{{ i }}<a href="/accounts/{{ i.username }}/" class="btn btn-primary">Follow</a></p>
+    {% endfor %}
+</div>
 {% endblock %}
