@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+}
+
+.post-container {
+  background-color: rgb(230, 241, 245);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  /* height: 100vh; */
+}
+
+.post {
+  width: 60%;
+  padding: 10px;
+  background-color: white;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 10px lightgray;
+}
+
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 5px;
+  margin-bottom: 10px;
+}
+
+.post-top-left {
+  display: flex;
+  /* align-items: center; */
+}
+
+.post-top-left > div {
+  margin-left: 10px;
+}
+
+.post-top-left > div > h4 {
+  font-size: medium;
+}
+
+.post-top-left > div > h6 {
+  font-size: small;
+  margin-top: -3px;
+  color: gray;
+}
+
+.post-top-left > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.post-top-right {
+  cursor: pointer;
+  margin-right: 10px;
+}
+.post-mid {
+  margin-bottom: 10px;
+}
+.post-mid-img > img {
+  width: 100%;
+}
+
+.post-details {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.post-details > h6 {
+  margin: 0px 10px;
+  color: grey;
+  font-size: medium;
+}
+
+.post-options {
+  display: flex;
+  justify-content: space-around;
+}
+
+.post-option {
+  justify-content: center;
+  display: flex;
+  flex-grow: 1;
+  margin: auto;
+  /* padding: 10px 20px; */
+  /* align-items: center; */
+  cursor: pointer;
+  padding: 10px 0px;
+  /* padding-left: 6%; */
+  border-radius: 10px;
+}
+
+.post-option:hover {
+  background-color: rgb(230, 241, 245);
+}
+
+.post-option > h6 {
+  margin-left: 10px;
+  font-size: medium;
+}
+
+.post-option > i {
+  font-size: 1.33em;
+}
+
+.post-like.active,
+.post-save.active {
+  color: #1877f2;
+}
+
+@media (max-width: 780px) {
+  .post {
+    width: 100%;
+    border-radius: 0;
+  }
+  .post-option:hover {
+    background-color: transparent;
+  }
+}
+@media (max-width: 350px) {
+  .post-details > h6 {
+    font-size: small;
+  }
+  .post-option > h6 {
+    font-size: small;
+  }
+  .post-option > i {
+    font-size: 1em;
+  }
+}
