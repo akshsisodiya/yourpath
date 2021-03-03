@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+    <div class="container">
+        <p>{{ user.username }}
+            {% if is_following %}
+            <a id="follow" href="/accounts/follow/{{ user.username }}" class="btn btn-primary">Unfollow</a>
+        {% else %}
+            <a id="follow" href="/accounts/follow/{{ user.username }}" class="btn btn-primary">Follow</a>
+        {% endif %}</p>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $("#follow").click(function (e){
+            e.preventDefault();
+            var link = this.href
+            $.ajax({
+                url:link,
+                success:function (response){
+                    console.log(response)
+                    if (response["Following"])
+                    {
+                        $("#follow").html("Unfollow");
+                    }
+                    else {
+                        $("#follow").html("Follow");
+                    }
+                }
+            })
+        })
+
+
+    </script>
+
+{% endblock %}
