@@ -17,58 +17,113 @@
 </head>
 
 <body>
-
-    <div class="post-container">
-        <div class="post">
-            <div class="post-top">
-                <div class="post-top-left">
-                    <img src="https://scontent.fbdq2-1.fna.fbcdn.net/v/t1.0-9/87552205_2527685700812338_1281628682191896576_o.jpg?_nc_cat=103&ccb=3&_nc_sid=09cbfe&_nc_ohc=bzpK1mCsZsoAX_RWKxJ&_nc_ht=scontent.fbdq2-1.fna&oh=344764db0e0ff9f2368c1848a50bc052&oe=60649E4B"
-                        alt="">
-                    <div>
-                        <h4>Antariksh Sisodiya</h4>
-                        <h6>Tue, 2 Mar 18:00 pm</h6>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <h4>YourPath</h4>
+            </div>
+            <div class="search-bar">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <form action="" id="search-form" autocomplete="off">
+                    <input type="text" name="query">
+                    <button type="submit"></button>
+                </form>
+                <div class="search-result-container d-none">
+                    <div class="search-result">
+                        <h6>Result</h6>
                     </div>
-                </div>
-                <div class="post-top-right">
-                    <i class="fas fa-ellipsis-h"></i>
+                    <div class="search-result">
+                        <h6>Result</h6>
+                    </div>
+                    <h6>Search result for <strong></strong></h6>
                 </div>
             </div>
-            <div class="post-mid">
-                <div class="post-mid-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                </div>
-                <div class="post-mid-img">
-                    <img src="https://indianmemetemplates.com/wp-content/uploads/Inko-kya-hi-pata-chalega.jpg" alt="">
-                </div>
+        </div>
+        <div class="header-right">
+            <div class="home tab active">
+                <i class="fa fa-home" aria-hidden="true"></i>
             </div>
-            <div class="post-bottom">
-                <div class="post-details">
-                    <h6>420 likes</h6>
-                    <h6>69 comments</h6>
-                    <h6>2 shares</h6>
+            <div class="chat tab">
+                <i class="fa fa-comments" aria-hidden="true"></i>
+            </div>
+            <div class="add-post tab">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+            </div>
+            <div class="notification tab">
+                <i class="fa fa-bell" aria-hidden="true"></i>
+            </div>
+            <div class="user-profile tab">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <div class="feed-area">
+        <div class="post-container">
+            <div class="post">
+                <div class="post-top">
+                    <div class="post-top-left">
+                        <a href="#"><img
+                                src="https://scontent.fbdq2-1.fna.fbcdn.net/v/t1.0-9/87552205_2527685700812338_1281628682191896576_o.jpg?_nc_cat=103&ccb=3&_nc_sid=09cbfe&_nc_ohc=bzpK1mCsZsoAX_RWKxJ&_nc_ht=scontent.fbdq2-1.fna&oh=344764db0e0ff9f2368c1848a50bc052&oe=60649E4B"
+                                alt=""></a>
+                        <div>
+                            <a href="#">
+                                <h4>Antariksh Sisodiya</h4>
+                            </a>
+                            <h6>Tue, 2 Mar 18:00 pm</h6>
+                        </div>
+                    </div>
+                    <div class="post-top-right">
+                        <div class="post-actions-button">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                        <div class="post-actions-container d-none">
+                            <div class="post-actions">
+                                <h6 class="post-action">Follow/Unfollow</h6>
+                                <h6 class="post-action">Share profile</h6>
+                                <h6 class="post-action">Report</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="post-options">
-                    <div class="post-like post-option">
-                        <i class="far fa-thumbs-up  "></i>
-                        <!-- remove far & add fas -->
-                        <h6>Like</h6>
+                <div class="post-mid">
+                    <div class="post-mid-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat
+                            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
                     </div>
-                    <div class="post-comment post-option">
-                        <i class="fas fa-comment"></i>
-                        <h6>Comment</h6>
+                    <div class="post-mid-img">
+                        <img src="https://indianmemetemplates.com/wp-content/uploads/Inko-kya-hi-pata-chalega.jpg"
+                            alt="">
                     </div>
-                    <div class="post-share post-option">
-                        <i class="fas fa-share"></i>
-                        <h6>Share</h6>
+                </div>
+                <div class="post-bottom">
+                    <div class="post-details">
+                        <h6>420 likes</h6>
+                        <h6>69 comments</h6>
+                        <h6>2 shares</h6>
                     </div>
-                    <div class="post-save post-option">
-                        <i class="far fa-bookmark"></i>
-                        <!-- remove far & add fas -->
-                        <h6>Save</h6>
+                    <div class="post-options">
+                        <div class="post-like post-option">
+                            <i class="far fa-thumbs-up  "></i>
+                            <!-- remove far & add fas -->
+                            <h6>Like</h6>
+                        </div>
+                        <div class="post-comment post-option">
+                            <i class="fas fa-comment"></i>
+                            <h6>Comment</h6>
+                        </div>
+                        <div class="post-share post-option">
+                            <i class="fas fa-share"></i>
+                            <h6>Share</h6>
+                        </div>
+                        <div class="post-save post-option">
+                            <i class="far fa-bookmark"></i>
+                            <!-- remove far & add fas -->
+                            <h6>Save</h6>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,26 +146,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
         integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
         crossorigin="anonymous"></script>
-
-
-    <script>
-        // const like = document.querySelector(".post-like")
-        // like.addEventListener("click", (e) => {
-        //     var like_icon = like.querySelector("i")
-        //     like_icon.classList.remove("far")
-        //     like_icon.classList.add("fas")
-        // })
-        $(".post-like").click(function () {
-            $(".post-like>i").toggleClass("fas");
-            $(".post-like").toggleClass("active");
-            $(".post-like>i").toggleClass("far");
-        });
-        $(".post-save").click(function () {
-            $(".post-save>i").toggleClass("fas");
-            $(".post-save").toggleClass("active");
-            $(".post-save>i").toggleClass("far");
-        });
-    </script>
+    <script src="posts.js"></script>
 </body>
 
 </html>
