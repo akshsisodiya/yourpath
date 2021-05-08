@@ -1,7 +1,14 @@
+html, body{
+  scroll-behavior: smooth;
+}
 
 *{
   margin: 0;
   padding: 0;
+}
+
+*::-webkit-scrollbar{
+  display: none;
 }
 .flex-wrapper {
   min-height: 100vh;

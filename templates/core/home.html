@@ -1,5 +1,18 @@
 {% extends 'base.html'%}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 {% block content %}
-{% include 'components/header.html' %}
-{% include 'components/footer.html' %}
+<div style="position: relative;">
+    {% include 'components/home_navbar.html' %}
+    {% include 'components/header.html' %}
+</div>
+        <div style="background-color: white">
+            {% include 'core/about_us.html' %}
+            {% include 'core/services.html' %}
+            {% include 'core/contact_us.html' %}
+        </div>
+    {% include 'components/footer.html' %}
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

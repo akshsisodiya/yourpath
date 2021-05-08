@@ -2,11 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c969c3b6-f061-4b2b-8cd4-5e67534a1228" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/static/css/home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/header.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/js/home.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/core/services.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yourpath/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/yourpath/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yourpath/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/yourpath/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/header.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/home_navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/home_navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/core/about_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/core/about_us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/core/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/core/contact_us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/core/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/core/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +61,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\AKSH\Django project\yourpath" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\AKSH\Django project\yourpath\static\js" />
     </key>
   </component>
   <component name="RunManager" selected="Django Server.Yourpath">
@@ -108,7 +121,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1614581630941</updated>
-      <workItem from="1620451253207" duration="9445000" />
+      <workItem from="1620451253207" duration="20208000" />
     </task>
     <servers />
   </component>
