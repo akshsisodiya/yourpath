@@ -1,0 +1,230 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title></title>
+    <style>
+        {% block style %}{% endblock %}
+     .modal-backdrop {
+    z-index: 0;
+}
+        .ui-autocomplete-input {  cursor: default;z-index:30 !important;}
+
+        .ui-menu {
+    position: absolute;
+    z-index: 1500;
+    list-style: none;
+    padding: 0;
+    margin-top: 5em;
+    display: block;
+    outline: 0;
+}
+
+        #searchDrop{
+            display: none;
+    position: absolute;
+    top: 72%;
+
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar-custom ">
+        <div class="container-fluid">
+            <div class="first-row d-none d-sm-block d-sm-none d-md-block">
+                <div class="d-flex justify-content-between pt-3 align-items-center">
+                    <div class=" h3 text-white ">Your Path</div>
+
+                    <div class="mx-auto pl-3">
+                        <input class="search-bar"type="text" name="search" id="tags" placeholder="Search">
+                        <div id="searchDrop" >
+
+                      </div>
+                    </div>
+
+
+                    <div class="ml-auto p-2">
+
+                        <i class="h3 fas fa-home text-white px-2"></i>
+                        <i class="h3 fab fa-telegram-plane text-white px-2"></i>
+                        <a href="" data-toggle="modal" data-target="#myModal"> <i class="h3 fas fa-plus-square text-white px-2"></i></a>
+                        <span class="dropdown show">
+                            <a href="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="h3 fas fa-user text-white px-2"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right mt-4" aria-labelledby="dropdownMenuLink" id="drop">
+                                <a class="dropdown-item" href="/profile/{{request.user.username}}"><i class="fas fa-user-circle pr-2"></i>Profile</a>
+                                <a class="dropdown-item" href="#"><i class="far fa-bookmark pr-2"></i>Saved</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog pr-2"></i>Settings</a>
+                                                     <div class="dropdown-divider"></div>
+
+                                <span id="logout"><a class="dropdown-item" href="#">Logout</a>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+    <div class="modal fade" id="myModal" style="z-index: 9999;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Post</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+
+
+        <!-- Modal body -->
+                  <form action="/add/post/" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+        <div class="modal-body">
+                <div class="form-group">
+                    <label for="caption">Caption</label>
+                    <textarea name="caption" class="form-control" id="caption" rows="3"></textarea>
+                </div>
+            <div class="custom-file">
+    <input name="post-image" type="file" class="custom-file-input" id="validatedCustomFile" accept="image/x-png,image/gif,image/jpeg" onchange="showPreview(event);" required>
+    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+  </div>
+        <div class="preview my-2">
+            <img id="file-ip-1-preview" class="w-100">
+        </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Post</button>
+
+        </div>
+            </form>
+
+      </div>
+    </div>
+  </div>
+
+            <div class="second-row d-block d-sm-none ">
+                <div class="d-flex align-items-center px-4 pt-4">
+                    <div class=" text-left h3 text-white ">YourPath</div>
+                    <div class="ml-auto text-right">
+                        <i class="h3 fab fa-telegram-plane text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <footer class="d-block d-sm-none footer">
+        <div class="second-row d-flex justify-content-between px-5 mt-2">
+            <div><i class="h3 fas fa-home text-white px-2"></i></div>
+            <div><i class="h3 fas fa-search text-white px-2"></i></div>
+            <div><i class="h3 fas fa-plus-square text-white px-2"></i></div>
+            <div><i class="h3 fas fa-user text-white px-2"></i></div>
+
+        </div>
+    </footer>
+
+
+
+
+    <!-- Footer -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+    <script>
+
+
+          $( function() {
+
+    $( "#tags" ).autocomplete({
+      source:  function (request, response) {
+        $.ajax({
+        type: "POST",
+        url:"http://127.0.0.1:8000/search/",
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        data: {term:request.term},
+
+        success: response,
+        dataType: 'json',
+        minLength: 2,
+        delay: 100
+            });
+        }});
+  } );
+        $('#tags').keypress(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+            window.location.href='http://127.0.0.1:8000/profile/'+$(this).val() +'/'
+         }
+        });
+
+        function showPreview(event){
+          if(event.target.files.length > 0){
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("file-ip-1-preview");
+            preview.src = src;
+            preview.style.display = "block";
+          }
+        }
+
+        $("#logout").click(function(){
+            $.ajax({
+                    type: "POST",
+                    url: 'http://127.0.0.1:8000/auth/logout/',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    success:function(data, textStatus) {
+                        window.location.replace("http://127.0.0.1:8000/")
+                    }
+                    });
+            });
+    </script>
+    <script>
+        {% block script %}
+        {% endblock script %}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+
+{% block content%}
+
+
+
+<div class="container custom-mt-5">
+    <h1>Login</h1>
+
+    <div class="border-custom w-100 my-3"></div>
+
+    <form action="/auth/login/" method="post">{% csrf_token %}
+        {{form|crispy}}
+
+        <button class="btn btn-block btn-lg btn-dark" type="submit">Login</button>
+
+    </form>
+    <div class="my-3 text-center">
+    <a class="h5" href="/auth/signup/">Signup</a> | <a class="h5" href="/auth/login/">Forgot Password?</a>
+    </div>
+    </div>
+
+{% endblock content%}
