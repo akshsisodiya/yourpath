@@ -1,0 +1,132 @@
+{% extends 'corebase.html' %}
+{% load static %}
+ {% block style %}
+
+.profile-img{
+    border:solid 2px black;
+    border-radius:50%;
+    max-width:60%;
+    display:block;
+    height:auto;
+}
+.image{
+    position: relative;
+
+}
+.overlay{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgba(67, 68, 68, 0.7);
+}
+.image:hover .overlay{
+    opacity: 1;
+}
+
+.post-img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+.custom-mt{
+    margin-top: 9rem;
+     }
+
+{% endblock %}
+{% block content %}
+
+<div class="container custom-mt">
+    <div class="row " >
+        <div class="col-sm-12 col-md-4">
+            <img class="profile-img  mx-auto" src="{{userdata.user_profile_img}}" alt="">
+        </div>
+        <div class="col-sm-12 col-md-8 mt-3 text-center ">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+            {% if not userdata.username == request.user.username %}
+                <div class="h3 user-name mx-2 mx-md-2  px-sm-2 text-truncate">{{userdata.username}}</div>
+
+                {% if userdata.relation %}
+                <a class="btn btn-primary text-white mx-md-3 mx-sm-2 px-5" role="button" href="{% url 'core:follow' userdata.username  %}" id="follow">Unfollow</a>
+
+                {% else %}
+
+                <a class="btn btn-primary text-white mx-md-3 mx-sm-2 px-5" role="button" href="{% url 'core:follow' userdata.username  %}" id="follow">Follow</a>
+
+                {% endif %}
+
+                {% else %}
+                <div class="h3 user-name mx-2 mx-md-2  px-sm-2 text-truncate">{{userdata.username}}</div>
+
+                <a class="btn btn-primary text-white mx-md-3 mx-sm-2 px-5" role="button" href="">Edit</a>
+
+            {% endif %}
+            </div>
+            <div class="my-4 d-flex align-items-center justify-content-start justify-content-md-start">
+                <div class="post-num h4 mx-md-3 mx-2"><b>{{userdata.user_total_post}}</b> Post</div>
+                <div class="follower-num h4 mx-md-3 mx-2"><b>{{userdata.user_follower_count}} </b>Follower</div>
+                <div class="following h4 mx-md-3 mx-2"><b>{{userdata.user_following_count}} </b>Following</div>
+            </div>
+            <div class="bio text-left ml-3">
+                <p>{{userdata.user_bio}}</p>
+            </div>
+            <div class="user-link">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="border-top border-dark w-100 mt-2"></div>
+    <div class="container  my-2">
+        <div class="row my-2">
+            {% for i,j in userdata.post %}
+
+         <div class="col-md-4 my-3">
+                <div class="image">
+                    <a href="">
+                        <img src="{{i}}" alt="" class="post-img"></a>
+                    <div class="overlay">
+                        <div class="detail text-white d-flex justify-content-center align-items-center" style="height:100%">
+                         <div>  <i class="px-2 fas fa-2x fa-heart"></i><span class="h3 px-1">{{ j }} </span></div>
+                           <div>  <i class="px-2 fas fa-2x fa-comment"></i><span class=" h3 px-1">23 </span></div>
+                        </div>
+                    </div>
+                </div>
+         </div>
+              {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+{% block script %}
+
+
+    $('#follow').click(function (e){
+        e.preventDefault()
+        var href = this.href;
+        console.log(href)
+        $.ajax({
+            url : href,
+            success: function (response)
+            {
+                console.log(response)
+                if(response['Following'])
+                {
+                    $('#follow').html("Unfollow");
+                }
+                else {
+                    $('#follow').html("Follow");
+                }
+            }
+        })
+    })
+
+
+{% endblock script %}

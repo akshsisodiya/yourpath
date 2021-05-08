@@ -1,0 +1,162 @@
+{% extends 'corebase.html' %}
+{% load static %}
+{% block style %}
+
+.post{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+.profile-link{
+color:black;
+}
+.profile-link:hover{
+color:black;
+}
+.comment-input input[type='text']{
+    width:85%;
+    border:none;
+
+}
+.comment-input input[type='text']:focus{
+    outline:none;
+}
+.card-footer , .card-header {
+
+    background-color: white !important;
+}
+.post-btn button[type='submit']{
+  border:none;
+  background-color:white;
+}
+
+.postbtn:hover{
+cursor:pointer;
+}
+
+{% endblock style %}
+
+
+{% block content %}
+
+
+ <div class="container custom-mt-5 text-dark">
+    {% for i,j in user_data %}
+     <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-9 my-2 ">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center pt-2">
+
+                        <div class="img"><i class="h5 fas fa-user-circle"></i></div>
+                        <div class="h6 user-name pl-3 font-weight-bold"><a class="profile-link" href="/profile/{{i.user}}/">{{i.user}}</a></div>
+                        <div class="opt ml-auto">
+                            <i class="h5 fas fa-ellipsis-h"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body p-0 text-truncated">
+
+                    <img class="post" src="/media/{{ i.post_image }}" alt="">
+                </div>
+                <div class="card-footer">
+
+                    <div class="d-flex">
+                        {% if i in liked %}
+                        <div class="like-container pr-2"><a  id="{{ i.id }}" class="like text-decoration-none text-dark" href="like/{{ i.id }}/"><i style="color:#ff4d4d" class="fa-2x  fas fa-heart"></i></a></div>
+
+                        {% else %}
+                        <div class="like-container pr-2"><a  id="{{ i.id }}" class="like text-decoration-none text-dark" href="like/{{ i.id }}/"><i class="fa-2x  far fa-heart"></i></a></div>
+                        {% endif %}
+                        <div class="comment-container px-2"><i class="far fa-2x fa-comment"></i></div>
+                        <div class="share-container px-2"><i class="far fa-2x fa-paper-plane"></i></div>
+                        <div class="save-container ml-auto px-2"><i class="far fa-2x fa-bookmark"></i></div>
+                    </div>
+                    <div class="h5 n-likes my-2 mx-2">
+                        <span id="n-like{{ i.id }}">{{ j }}</span> Likes
+                    </div>
+                    <div class="h5 caption my-2 mx-2">
+                     <b>{{i.user}}</b> {{ i.post_caption }}
+                    </div>
+
+                     <div class="h6 n-comments my-2 mx-2">
+                         <b>View all 40 comment</b>
+                     </div>
+                 </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between comment-input">
+                        <div class="d-none d-sm-block emoji">
+                            <svg aria-label="Emoji" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"></path><path d="M34.9 24c0-1.4-1.1-2.5-2.5-2.5s-2.5 1.1-2.5 2.5 1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5zm-21.8 0c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5-2.5-1.1-2.5-2.5zM24 37.3c-5.2 0-8-3.5-8.2-3.7-.5-.6-.4-1.6.2-2.1.6-.5 1.6-.4 2.1.2.1.1 2.1 2.5 5.8 2.5 3.7 0 5.8-2.5 5.8-2.5.5-.6 1.5-.7 2.1-.2.6.5.7 1.5.2 2.1 0 .2-2.8 3.7-8 3.7z"></path></svg>
+                        </div>
+                        <input class="commentTxt" type="text" placeholder="Add Comment...">
+                        <div class="post-btn">
+                            <button type="submit" class="postbtn" disabled><b class="text-primary">Post</b></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+{#<script>#}
+     $('.like').click(function (e){
+        e.preventDefault()
+        var href = this.href;
+        var id = this.id;
+        console.log($('#n-like'+id).text());
+        $.ajax({
+            url : href,
+            success: function (response)
+            {
+                console.log(response);
+                if(response['is_liked'])
+                {
+                    $('#'+id).html('<i style="color:#ff4d4d" class="fa-2x  fas fa-heart"></i>');
+                    $('#n-like'+id).text(response['likes']);
+                }
+                else {
+                   $('#'+id).html('<i class="fa-2x  far fa-heart"></i>');
+                    $('#n-like'+id).text(response['likes']);
+                }
+            }
+        })
+
+    })
+
+{#</script>#}
+
+$( document ).ready(function() {
+    $(".postbtn").css('opacity','.3');
+});
+
+$(function () {
+
+        $(".commentTxt").keyup(function () {
+            //Reference the Button.
+            var btnSubmit = $(".postbtn");
+
+            //Verify the TextBox value.
+            if ($(this).val().trim() != "") {
+                //Enable the TextBox when TextBox has value.
+                btnSubmit.removeAttr("disabled");
+                $(".postbtn").css('opacity','');
+
+            } else {
+                //Disable the TextBox when TextBox is empty.
+                btnSubmit.attr("disabled", "disabled");
+                $(".postbtn").css('opacity','.3');
+
+            }
+        });
+    });
+
+
+{% endblock%}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+{% block style%}
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #86c232;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    background-color: #86c232;
+}
+.custom-control-label {
+    margin-bottom: 0;
+    padding-left: .5em;
+    padding-top: .05em;
+}
+.custom-control-label::after {
+    position: absolute;
+    top: .25rem;
+    left: 0;
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    content: "";
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 56% 56%;
+}
+.custom-control-label::before {
+    position: absolute;
+    top: .25rem;
+    left: 0;
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    pointer-events: none;
+    content: "";
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #dee2e6;
+}
+@media screen and (device-aspect-ratio: 40/71) {
+    .custom-radiobtn{
+        text-align: left !important;
+}
+}
+
+{% endblock style %}
+{% block content%}
+<div class="container custom-mt-5">
+    <h1>Signup</h1>
+
+    <div class="border-custom w-100 my-3"></div>
+
+    <form action="/auth/signup/" method="post">{% csrf_token %}
+        <div class="custom-radiobtn my-2 h3 text-center">
+            <div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline1" name="radio-role" class="custom-control-input" value="investor" checked>
+  <label class="custom-control-label" for="customRadioInline1">Investor</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline2" name="radio-role" class="custom-control-input" value="innovator">
+  <label class="custom-control-label" for="customRadioInline2">Innovator</label>
+</div>
+        </div>
+        {{form|crispy}}
+
+        <button class="btn btn-block btn-lg btn-dark" type="submit">Submit</button>
+
+    </form>
+    <div class="my-3 text-center">
+    <a class="h5" href="/auth/login/">Already a User? | Login</a>
+    </div>
+    </div>
+
+{% endblock content%}
