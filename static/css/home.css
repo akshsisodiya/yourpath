@@ -63,8 +63,22 @@
 }
 
 /* Contact */
-.subscribe{
+.subscription{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.subscription form{
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+    display: flex;
+}
+.subscription input{
+    outline: none !important;
+    border: none;
+    padding: 10px 20px;
+    width: 70%;
+}
+.subscription button{
+    width: 30%;
 }
