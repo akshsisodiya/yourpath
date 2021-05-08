@@ -1,0 +1,26 @@
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href={% static 'css/header.css' %}>
+{% endblock %}
+<div class="header">
+    <div class="header-top">
+        {% include 'components/home_navbar.html' %}
+    </div>
+    <div class="header-img"></div>
+    <div class="header-left  px-5">
+        <div class="title">
+            Yourpath Title
+        </div>
+        <div class="sub-title">
+            Lorem ipsum dolor sit amet, consectetur adipisicing.
+        </div>
+        <div class="row">
+            <div class="col-lg-6 p-3">
+                <button class="header-login-btn p-3">Login as Innovator</button>
+            </div>
+            <div class="col-lg-6 p-3">
+                <button class="header-login-btn p-3">Login as Innovator</button>
+            </div>
+        </div>
+    </div>
+</div>

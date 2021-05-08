@@ -1,7 +1,7 @@
+{% load static %}
 {% url 'home' as home %}
 {% url 'contact_us' as contact %}
 {% url 'about_us' as about %}
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,6 +15,8 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
     {% block head %}{% endblock %}
     <title>YourPath{% block title%}{%endblock%}</title>
 </head>
