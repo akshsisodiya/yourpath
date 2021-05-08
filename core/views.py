@@ -9,7 +9,8 @@ import json
 
 # TODO pwd = PDPwsrTazRN2PMh
 
-
+def index(request):
+    return render(request, 'core/home.html')
 # Create your views here.
 def feed(request):
     if request.user.is_authenticated:
