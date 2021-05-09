@@ -113,3 +113,4 @@ def add_follower(sender, instance, action, reverse, pk_set, **kwargs):
         for i in followed_user:
             i.follower.remove(logged_user)
             i.save()
+

@@ -50,3 +50,63 @@ Array.prototype.forEach.call(links, function(elem, index) {
         });
     }
 });
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+$('#subscription').submit(function(e){
+    e.preventDefault()
+    let email = $('#subscription input[name=email]').val()
+    let log = document.querySelector('.subscription h6')
+    $.post('add-subscriber/',{
+        csrfmiddlewaretoken:csrftoken,
+        email: email
+    }, function (data, status){
+        if(status === 'success'){
+            log.innerHTML='Request Submitted Successfully'
+            log.classList.add('text-success')
+        }else{
+            log.innerHTML='Something went wrong! Please try after some time.'
+            log.classList.add('text-danger')
+        }
+        $('#subscription input[name=email]').val('')
+    })
+})
+$('#support').submit(function(e){
+    e.preventDefault()
+    let name = $('#support input[name=name]').val()
+    let email = $('#support input[name=email]').val()
+    let message = $('#support input[name=message]').val()
+    let log =e.target.querySelector('h6')
+    $.post('add-support/',{
+        csrfmiddlewaretoken:csrftoken,
+        name: name,
+        email: email,
+        message: message
+    }, function (data, status){
+        if(status === 'success'){
+            log.innerHTML='Request Submitted Successfully'
+            log.classList.add('text-success')
+        }else{
+            log.innerHTML='Something went wrong! Please try after some time.'
+            log.classList.add('text-danger')
+        }
+        $('#support input[name=name]').val('')
+        $('#support input[name=email]').val('')
+        $('#support input[name=message]').val('')
+    })
+
+})

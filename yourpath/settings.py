@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'crispy_forms'
+    'crispy_forms',
+    'administrator',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -78,12 +79,14 @@ WSGI_APPLICATION = 'yourpath.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7d4jlvmi17em8',
+        'HOST':'ec2-35-174-35-242.compute-1.amazonaws.com',
+        'PORT':'5432',
+        'USER':'msqvvohtxraqeo',
+        'PASSWORD':'c02a31dc3761a4a1bae7139400a085654194c402b39d2d0b356a74f82cab0983',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
