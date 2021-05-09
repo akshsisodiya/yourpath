@@ -89,7 +89,7 @@ $('#support').submit(function(e){
     e.preventDefault()
     let name = $('#support input[name=name]').val()
     let email = $('#support input[name=email]').val()
-    let message = $('#support input[name=message]').val()
+    let message = $('#support textarea[name=message]').val()
     let log =e.target.querySelector('h6')
     $.post('add-support/',{
         csrfmiddlewaretoken:csrftoken,
@@ -106,7 +106,7 @@ $('#support').submit(function(e){
         }
         $('#support input[name=name]').val('')
         $('#support input[name=email]').val('')
-        $('#support input[name=message]').val('')
+        $('#support textarea[name=message]').val('')
     })
 
 })
