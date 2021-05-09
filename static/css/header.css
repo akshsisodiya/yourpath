@@ -99,6 +99,11 @@
         font-size: 5em;
     }
 }
+@media (max-width: 400px) {
+    .header-left .title{
+        font-size: 3em;
+    }
+}
 
 /* Header Navbar */
 .navbar{

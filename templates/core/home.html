@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 {% block content %}
+    <div id="scroll-top" class="d-none">
+        <button class="btn btn-primary rounded-circle nav-link" style="width: 100%; height: 100%;" href="#home">
+            <i class="fa fa-arrow-up lg"></i>
+        </button>
+    </div>
 <div style="position: relative;">
     {% include 'components/home_navbar.html' %}
     {% include 'components/header.html' %}

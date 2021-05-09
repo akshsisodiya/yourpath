@@ -8,9 +8,37 @@
     border-bottom: 0.1em solid var(--primary);
     width: 25%;
 }
+@media (max-width: 750px) {
+    .section-title{
+        width: 75%;
+    }
+}
 .section-content{
     font-size: 1.1em;
     font-weight: 400;
+    text-align: center;
+}
+#scroll-top{
+    position: fixed; /* Fixed/sticky position */
+    bottom: 50px; /* Place the button at the bottom of the page */
+    right: 60px; /* Place the button 30px from the right */
+    z-index: 99;
+    height: 60px;
+    width: 60px;/* Make sure it does not overlap */
+    transition: all 0.2s ease-in-out;
+}
+#scroll-top button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 750px) {
+    #scroll-top{
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 30px;
+        height: 40px;
+        width: 40px;
+    }
 }
 
 /* about-us */
@@ -60,6 +88,14 @@
 }
 .service-card .description{
     font-size: 0.8em;
+}
+@media (max-width: 400px) {
+    .img-container{
+        height: 30%;
+    }
+    .service-card{
+        height: 20em;
+    }
 }
 
 /* Contact */
