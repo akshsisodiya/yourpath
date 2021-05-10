@@ -4,22 +4,32 @@
 
 {% block content%}
 
-
-
-<div class="container custom-mt-5">
-    <h1>Login</h1>
-
-    <div class="border-custom w-100 my-3"></div>
-
-    <form action="/auth/login/" method="post">{% csrf_token %}
-        {{form|crispy}}
-
-        <button class="btn btn-block btn-lg btn-dark" type="submit">Login</button>
-
-    </form>
-    <div class="my-3 text-center">
-    <a class="h5" href="/auth/signup/">Signup</a> | <a class="h5" href="/auth/login/">Forgot Password?</a>
+<div class="container" style="display: flex; height: 100vh; flex-direction: column; justify-content: center">
+    <div class="row justify-content-center p3">
+        <div class="col-sm-8 col-lg-4 text-center form-container">
+            <div class="text-dark font-weight-bold h2 mb-4">YourPath</div>
+            <div id="login-form" class="p-3 bg-light text-dark rounded shadow">
+                <div class="mb-4 text-primary h4">Login</div>
+                <form action="/auth/login/" method="post">
+                    {% csrf_token %}
+                    <div class='d-flex align-items-center'><i class="fa fa-user fa-lg mb-3 mr-3"
+                            aria-hidden="true"></i><input type="text" name="username" placeholder="Username"
+                            class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required></div>
+                    <div class='d-flex align-items-center'><i class="fas fa-key fa-lg mb-3 mr-3 "></i><input
+                            type="password" name="password" placeholder="Password"
+                            class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required></div>
+                    <button class="btn btn-primary w-50 rounded-pill mb-2" type="submit">Login</button>
+                </form>
+                <div class="row">
+                    <div class="col-lg-12"><a id="turn-login" href="/auth/signup/">Don't have an account?
+                            Register.</a>
+                    </div>
+                    <div class="col-lg-12"><a href="/auth/reset-password/">Forgot Password?</a></div>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
+</div>
+
 
 {% endblock content%}
