@@ -8,7 +8,7 @@ from core.models import UserPost, UserProfile, Followed, Like, UserPostLike
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username','first_name','last_name']
 
 
 class LikeSerializer(serializers.ModelSerializer):
