@@ -26,7 +26,7 @@ class ProfileApi(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
 
     def get_queryset(self):
-        if !self.request.user:
+        if not self.request.user:
             user = User.objects.get(username = 'admin')
         else:
             user = self.request.user
