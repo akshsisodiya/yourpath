@@ -27,7 +27,7 @@ class ProfileApi(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if !self.request.user:
-             user = User.objects.get(username = 'admin')
+            user = User.objects.get(username = 'admin')
         else:
             user = self.request.user
         return UserProfile.objects.filter(user=user)
