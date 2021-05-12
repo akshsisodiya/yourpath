@@ -26,4 +26,9 @@ class ProfileApi(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
 
     def get_queryset(self):
-        return UserProfile.objects.filter(user=User.objects.get(username = 'admin'))
+        if self.request.user.is_authenticated:
+            return UserProfile.objects.filter(user=self.request.user)
+        #TODO remove this else condition in Production
+        else:
+            return UserProfile.objects.filter(user=User.objects.get(username = 'admin')) 
+        #Caution
