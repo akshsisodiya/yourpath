@@ -10,43 +10,9 @@ class UserPost(models.Model):
     post_image = models.ImageField(upload_to='media')
     post_date = models.DateField(auto_now_add=True)
     post_caption = models.TextField(blank=True)
-
+   
     def __str__(self):
         return f"{str(self.user) } {str(self.post_date)} {str(self.id)}"
-
-
-# Userprofile Model
-class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_image = models.ImageField(
-                                    upload_to='media',
-                                    default='/media/default.png')
-    user_bio = models.CharField(max_length=150, blank=True)
-
-    # External Link is to put some kinda link in user's bio
-    user_external_link = models.URLField(blank=True, default='')
-
-    # Not using this shit anymore. Calculating no. of followers and following
-    # by counting the total user in ONE-TO-ONE FIELD in views
-    user_follower = models.IntegerField(default=0)
-    user_following = models.IntegerField(default=0)
-
-    user_total_post = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f'{str(self.user)}'
-
-
-# This function is used to create UserProfie object and Follow object of user
-# whenenver new user signup
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-        Followed.objects.create(user=instance)
-
-
-# Singnal to call CREATE PROFILE method when new USER object is saved(SignUp) 
-post_save.connect(create_profile, sender=User)
 
 
 # Like and Dislike model
@@ -61,14 +27,17 @@ class Like(models.Model):
     def liked(cls, post, liked_by_user):
         obj, create = cls.objects.get_or_create(post=post)
         obj.user.add(liked_by_user)
-
+ 
     @classmethod
     def dislike(cls, post, disliked_by_user):
         obj, create = cls.objects.get_or_create(post=post)
         obj.user.remove(disliked_by_user)
+  
 
     def __str__(self):
         return f'{str(self.post)}'
+
+
 
 
 # Followed Model
@@ -89,6 +58,7 @@ class Followed(models.Model):
 
     def __str__(self):
         return str(self.user.username)
+
 
 
 # Again some kinda signal it is used
@@ -114,3 +84,47 @@ def add_follower(sender, instance, action, reverse, pk_set, **kwargs):
             i.follower.remove(logged_user)
             i.save()
 
+class UserPostLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_post_image = models.ImageField(upload_to='media')
+    user_post_date = models.DateField(auto_now_add=True)
+    user_post_caption = models.TextField(blank=True)
+    liked_by_user = models.ManyToManyField(User, related_name="liked_post_by_user", blank=True)
+   
+    def __str__(self):
+        return f"{str(self.user) } {str(self.user_post_date)} {str(self.id)}"
+
+# Userprofile Model
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_image = models.ImageField(
+                                    upload_to='media',
+                                    default='/media/default.png')
+    user_bio = models.CharField(max_length=150, blank=True)
+
+    # External Link is to put some kinda link in user's bio
+    user_external_link = models.URLField(blank=True, default='')
+
+    # Not using this shit anymore. Calculating no. of followers and following
+    # by counting the total user in ONE-TO-ONE FIELD in views
+    user_follower = models.IntegerField(default=0)
+    user_following = models.IntegerField(default=0)
+
+    user_total_post = models.IntegerField(default=0)
+
+    user_saved_post = models.ManyToManyField(UserPostLike, related_name="saved_post", blank=True)
+
+    def __str__(self):
+        return f'{str(self.user)}'
+
+
+# This function is used to create UserProfie object and Follow object of user
+# whenenver new user signup
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+        Followed.objects.create(user=instance)
+
+
+# Singnal to call CREATE PROFILE method when new USER object is saved(SignUp) 
+post_save.connect(create_profile, sender=User)
