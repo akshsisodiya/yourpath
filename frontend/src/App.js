@@ -20,7 +20,8 @@ function App() {
   })
 
   const [curMainTab, setCurMainTab] = useState('home')
-  const url = 'https://yourpath-django.heroku.com/'
+  // const url = 'https://yourpath-django.heroku.com/'
+  const url = 'https://127.0.0.1:8000/'
 
   return (
     <div className="app">

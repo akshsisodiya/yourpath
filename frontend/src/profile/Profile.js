@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react"
 import "./profile.css"
-import { UserContext } from '../App'
+import { UserContext, UrlAddress } from '../App'
 import postData from '../components/postData.json'
 import Post from '../components/Post'
 import LoadingScreen from '../components/LoadingScreen'
@@ -233,9 +233,10 @@ function ProfileContent() {
 
 function Profile() {
     const [userDetail, setUserDetail] = useState(null)
+    const rootUrl = window.location.origin+'/'
 
     useEffect(async () => {
-        const response = await fetch('https://yourpath-django.herokuapp.com/api/UserProfileModel/')
+        const response = await fetch(rootUrl+'api/UserProfileModel/')
         const jsonResponse = await response.json()
         setUserDetail(jsonResponse[0])
         // console.log(jsonResponse[0].user)
