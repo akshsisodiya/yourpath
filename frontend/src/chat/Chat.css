@@ -1,0 +1,6 @@
+.chat-list-fregment {
+  cursor: pointer;
+}
+.chat-list-fregment:hover {
+  background-color: var(--theme-light-blue);
+}

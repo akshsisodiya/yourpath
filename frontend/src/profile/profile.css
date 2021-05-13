@@ -1,0 +1,80 @@
+#profile-navbar .nav {
+  border-bottom: 1px solid var(--theme-gray);
+}
+.profile-nav-link {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--dark);
+  transition: all 0.1s ease-in-out;
+}
+.profile-nav-link:hover {
+  color: black;
+  border-bottom: 3px solid black;
+}
+.profile-nav-link.active {
+  color: var(--theme-blue);
+  border-bottom: 3px solid var(--theme-blue);
+}
+@media (max-width: 500px) {
+  .profile-nav-link i {
+    display: none;
+  }
+}
+@media (max-width: 999px) {
+  #profile-navbar .nav {
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 768px) {
+  .empty-space {
+    padding-bottom: 80px;
+  }
+}
+@media (max-width: 767px) {
+  .empty-space {
+    padding-bottom: 50px;
+  }
+}
+@media (max-width: 500px) {
+  .empty-space {
+    padding-bottom: 50px;
+  }
+}
+@media (max-width: 350px) {
+  #saved-nav {
+    display: none;
+  }
+}
+
+.profile-content {
+  display: none;
+}
+.profile-content.active {
+  display: block;
+}
+
+.cover-img-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+.profile-main-profile {
+  border: 3px solid white;
+  background-color: #fff;
+}
+
+#edit-profile-btn {
+  padding: 0 50px;
+  background-color: var(--theme-blue);
+  color: white;
+  font-weight: 500;
+}
