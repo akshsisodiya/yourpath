@@ -234,9 +234,9 @@ function ProfileContent() {
 function Profile() {
     const [userDetail, setUserDetail] = useState(null)
     const rootUrl = window.location.origin+'/'
-
+    const url = useContext(UrlAddress)
     useEffect(async () => {
-        const response = await fetch(rootUrl+'api/UserProfileModel/')
+        const response = await fetch('/api/UserProfileModel/')
         const jsonResponse = await response.json()
         setUserDetail(jsonResponse[0])
         // console.log(jsonResponse[0].user)
