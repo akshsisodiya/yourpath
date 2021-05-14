@@ -26,7 +26,7 @@ function ProfileMain({ user }) {
             <div className="row text-center">
                 <div className="col-12 mb-2">
                     <div className='h5 mb-0'>{user.user.first_name} {user.user.last_name} <i className="fas fa-check-circle text-primary"></i> </div>
-                    <span>Student</span>
+                    <span>{user.user_bio}</span>
                 </div>
                 <div className="col-12 mb-2">
                     <div className="row justify-content-around">
@@ -232,7 +232,7 @@ function ProfileContent() {
 
 function Profile() {
     const [userDetail, setUserDetail] = useState(null)
-    const rootUrl = window.location.origin+'/'
+    const rootUrl = window.location.origin + '/'
     const url = useContext(UrlAddress)
     useEffect(async () => {
         const response = await fetch('/api/UserProfileModel/')

@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'core',
     'rest_framework',
     'crispy_forms',
@@ -145,4 +147,13 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR+'/staticfiles'
 
-MEDIA_ROOT = BASE_DIR+'/media'
+
+# Media files
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'yourpath',
+    'API_KEY': '756587134712716',
+    'API_SECRET': 'eXaMTM_e5Lqp5MSYmiTZpe6S7RM'
+}
+
+MEDIA_URL = '/media/'  # or any prefix you choose
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

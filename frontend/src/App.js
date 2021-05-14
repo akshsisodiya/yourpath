@@ -9,6 +9,11 @@ import Chat from './chat/Chat'
 export const UserContext = React.createContext({})
 export const UrlAddress = React.createContext(null)
 
+
+// cloudinary ID 'leyita8591@dvdoto.com'
+// cloudinary pwd 'Yourpath1234#'
+
+
 function App() {
   const [user, setUser] = useState({
     username: "aksh_sisodiya",

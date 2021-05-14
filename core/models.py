@@ -98,7 +98,7 @@ class UserPostLike(models.Model):
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_image = models.ImageField(
-                                    upload_to='media',
+                                    upload_to='user_profile_images',
                                     default='/media/default.png')
     user_bio = models.CharField(max_length=150, blank=True)
 
