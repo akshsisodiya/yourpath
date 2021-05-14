@@ -6,7 +6,6 @@ import Post from '../components/Post'
 import LoadingScreen from '../components/LoadingScreen'
 
 function ProfileMain({ user }) {
-    console.log(user)
     const userDetail = useContext(UserContext)
     return (
         <div className="col-lg-3" id="profile-main">
@@ -26,21 +25,21 @@ function ProfileMain({ user }) {
             </div>
             <div className="row text-center">
                 <div className="col-12 mb-2">
-                    <div className='h5 mb-0'>{user['user'].first_name} {user['user'].last_name} <i className="fas fa-check-circle text-primary"></i> </div>
+                    <div className='h5 mb-0'>{user.user.first_name} {user.user.last_name} <i className="fas fa-check-circle text-primary"></i> </div>
                     <span>Student</span>
                 </div>
                 <div className="col-12 mb-2">
                     <div className="row justify-content-around">
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">12</div>
+                            <div className="h6 mb-0">{user.user_follower}</div>
                             <span>Following</span>
                         </div>
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">44M</div>
+                            <div className="h6 mb-0">{user.user_following}</div>
                             <span>Followers</span>
                         </div>
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">52</div>
+                            <div className="h6 mb-0">{user.user_total_post}</div>
                             <span>Posts</span>
                         </div>
                     </div>
@@ -239,7 +238,7 @@ function Profile() {
         const response = await fetch('/api/UserProfileModel/')
         const jsonResponse = await response.json()
         setUserDetail(jsonResponse[0])
-        // console.log(jsonResponse[0].user)
+        // console.log(jsonResponse[0])
     }, [])
 
     return (
