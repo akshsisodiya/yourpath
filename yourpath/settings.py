@@ -157,3 +157,4 @@ CLOUDINARY_STORAGE = {
 
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_ROOT = 'res.cloudinary.com/yourpath/image/upload/v1620972980/'
