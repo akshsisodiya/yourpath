@@ -5,8 +5,7 @@ export default function TextBar({input, setInput, placeHolder, sendFunction}){
     const sendButton = useRef()
     
     function sendButtonClick(e){
-        if(input != ""){
-            console.log(input)
+        if(input != ""){            
             sendFunction()
             setInput("")
         }
