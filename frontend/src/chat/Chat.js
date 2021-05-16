@@ -71,7 +71,7 @@ function MainMessageArea() {
         const flexDir = msgType == 'send' ? 'row' : 'row-reverse'
         return (
             <div className="w-100 px-3 py-1 d-flex justify-content-end align-items-start" style={{ flexDirection: flexDir }}>
-                <div class='msg-fregment-container'>
+                <div className='msg-fregment-container'>
                     <div className="mx-2 msg-fregment">
                         <div className="py-2 px-4">
                             {children}
