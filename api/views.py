@@ -16,4 +16,7 @@ class UserProfileApi(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user)
+        if self.user.is_authenticated:
+            return Profile.objects.filter(user=self.request.user)
+        else:
+            return Profile.objects.filter(username = "admin")
