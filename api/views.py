@@ -4,31 +4,16 @@ from django.shortcuts import HttpResponse
 from django.http import JsonResponse
 import json
 from rest_framework.response import Response
-from .serializers import UserSerializer,LikeSerializer,UserProfileSerializer
+from .serializers import ProfileSerializer
 from django.contrib.auth.models import User
-from core.models import UserPost, UserProfile, Followed, Like,UserPostLike
-# Create your views here.
+from core.models import Post,Profile
+# # Create your views here.
 
-# TODO PWD_FOR_TESTUSER = X6BXfUdrpd2RgBV 
+# # TODO PWD_FOR_TESTUSER = X6BXfUdrpd2RgBV 
 
-
-class UserApi(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class PostApi(viewsets.ModelViewSet):
-    queryset = UserPostLike.objects.all()
-    serializer_class = LikeSerializer
-
-
-class ProfileApi(viewsets.ModelViewSet):
-    serializer_class = UserProfileSerializer
+class UserProfileApi(viewsets.ModelViewSet):
+    
+    serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return UserProfile.objects.filter(user=self.request.user)
-        #TODO remove this else condition in Production
-        else:
-            return UserProfile.objects.filter(user=User.objects.get(username = 'admin')) 
-        #Caution
+        return Profile.objects.filter(user=self.request.user)

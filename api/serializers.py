@@ -1,28 +1,24 @@
-from core.models import UserPost
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from core.models import UserPost, UserProfile, Followed, Like, UserPostLike
+from core.models import Post, Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','first_name','last_name']
+        fields = ["username"]
 
-
-class LikeSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    liked_by_user = UserSerializer(read_only=True, many=True)
     class Meta:
-        model = UserPostLike
+        model = Post
         fields = "__all__"
 
-
-class UserProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    user_saved_post = LikeSerializer(read_only=True, many=True)
-
+    posts = PostSerializer(read_only=True, many= True)
+    
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = "__all__"

@@ -6,7 +6,7 @@ from .views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls', namespace='core')),
+    path('', include('core.urls')),
     path('auth/', include('auth.urls')),
     path('api/', include('api.urls')),
 
