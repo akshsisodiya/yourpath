@@ -6,7 +6,7 @@ import json
 from rest_framework.response import Response
 from .serializers import ProfileSerializer
 from django.contrib.auth.models import User
-from core.models import Post,Profile
+from core.models import Post,Profile,get_user
 # # Create your views here.
 
 # # TODO PWD_FOR_TESTUSER = X6BXfUdrpd2RgBV 
@@ -16,7 +16,7 @@ class UserProfileApi(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        if self.user.is_authenticated:
+        if self.request.user.is_authenticated:
             return Profile.objects.filter(user=self.request.user)
         else:
-            return Profile.objects.filter(username = "admin")
+            return Profile.objects.filter(user = get_user("admin"))
