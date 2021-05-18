@@ -4,6 +4,8 @@ from .models import Post,Profile,get_user
 # Create your views here.
 #TODO password for user TEST "qJa2WF79544ETDa"
 
+def index(request):
+    return render(request, 'index.html')
 
 def addFollower(request,username):
     follower_obj = Profile.Manager(username=request.user)
