@@ -97,7 +97,7 @@ function Header({ curMainTab, setCurMainTab }) {
                 <div className="tab" id='chat-nav' onClick={tabClick}>
                     <i className="fa fa-comments" aria-hidden="true" onClick={tabIconClick}></i>
                 </div>
-                <div className="tab" id='add-post-nav' onClick={tabClick} style={{ position: 'relative' }}>
+                <div className="tab" id='upload-nav' onClick={tabClick} style={{ position: 'relative' }}>
                     <i className="fa fa-plus-square" aria-hidden="true" onClick={tabIconClick}></i>
                     <div className="p-2 d-none" id='add-new-list' ref={addPostList} style={{ position: 'absolute', top: '100%', left: '0%' }}>
                         <div className="p-1">

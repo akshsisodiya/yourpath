@@ -5,6 +5,7 @@ import React,{useState} from 'react'
 import Profile from './profile/Profile'
 import Notification from './notification/Notfications'
 import Chat from './chat/Chat'
+import UploadPost from './upload/UploadPost'
 
 export const UserContext = React.createContext({})
 export const UrlAddress = React.createContext(null)
@@ -37,6 +38,7 @@ function App() {
       { curMainTab=='profile' && <Profile />}
       { curMainTab=='notification' && <Notification />}
       { curMainTab=='chat' && <Chat />}
+      { curMainTab=='upload' && <UploadPost />}
     </UserContext.Provider>
       </UrlAddress.Provider>
     </div>
