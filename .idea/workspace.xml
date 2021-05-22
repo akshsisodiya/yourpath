@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c969c3b6-f061-4b2b-8cd4-5e67534a1228" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="c969c3b6-f061-4b2b-8cd4-5e67534a1228" name="Default Changelist" comment="new Core">
       <change beforePath="$PROJECT_DIR$/.idea/Yourpath.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Yourpath.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +33,7 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="JupyterTrust" id="75f5d4ab-5f4e-4953-94b2-62a058cea539" />
   <component name="ProjectId" id="1p93la18Uxlu8MLTR2rzfUSUTjE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -58,7 +59,7 @@
   </component>
   <component name="RunManager" selected="Django Server.Yourpath">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="Yourpath" />
+      <module name="yourpath" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -80,12 +81,11 @@
       <method v="2" />
     </configuration>
     <configuration name="Yourpath" type="Python.DjangoServer" factoryName="Django server">
-      <module name="Yourpath" />
+      <module name="yourpath" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="yourpath.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -119,14 +119,39 @@
       <workItem from="1620793180995" duration="5321000" />
       <workItem from="1620882809919" duration="4763000" />
       <workItem from="1620895594306" duration="3707000" />
-      <workItem from="1620968485810" duration="11708000" />
-      <workItem from="1621136396749" duration="2091000" />
-      <workItem from="1621152374112" duration="1427000" />
-      <workItem from="1621577841604" duration="1178000" />
+      <workItem from="1620968485810" duration="10675000" />
+      <workItem from="1621223349534" duration="8559000" />
+      <workItem from="1621338722127" duration="8078000" />
     </task>
+    <task id="LOCAL-00001" summary="new Core">
+      <created>1621344744482</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621344744482</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new Core" />
+    <option name="LAST_COMMIT_MESSAGE" value="new Core" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1621345444336">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1621345444336" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1621344762258">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1621344762258" />
+    <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1621344961605">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1621344961605" />
   </component>
 </project>
