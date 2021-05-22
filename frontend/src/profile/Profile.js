@@ -14,13 +14,13 @@ function ProfileMain({ user }) {
                     <div style={{ position: 'relative' }}>
                         <img className='img-fluid rounded' src={userDetail.cover} alt="" />
                         <div className="col-4 col-lg-12 p-4" style={{ position: 'absolute', left: '50%', top: '90%', transform: 'translate(-50%, -50%)' }}>
-                            <img className='img-fluid rounded-circle profile-main-profile' src={user.user_image} alt="" />
+                            <img className='img-fluid rounded-circle profile-main-profile' src={user.profile} alt="" />
                         </div>
                     </div>
                     <div className='empty-space' style={{ content: '' }}></div>
                 </div>
                 <div className="d-none d-lg-block col-3 col-lg-12 p-3">
-                    <img className='img-fluid rounded-circle' src={user['user_image']} alt="" />
+                    <img className='img-fluid rounded-circle' src={user.profile} alt="" />
                 </div>
             </div>
             <div className="row text-center">
