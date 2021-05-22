@@ -1,0 +1,6 @@
+/env
+db.sqlite3
+/frontend/node_modules
+/.vscode
+/.idea
+/testApp

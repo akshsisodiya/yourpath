@@ -1,0 +1,7 @@
+.notification-fregment.unseen {
+  background-color: var(--theme-light-blue);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

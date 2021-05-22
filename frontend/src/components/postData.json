@@ -1,0 +1,224 @@
+{
+    "posts":[
+        {
+            "id":1,
+            "user_detail":{
+                "username":"aksh_sisodiya",
+                "full_name":"Antariksh Sisodiya",
+                "profile":"https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                "link":"/",
+                "is_followed": true
+            },
+            "post_detail":{
+                "time":"Tue, 2 Mar 18:00 pm",
+                "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                "img":"https://instagram.fbdq2-1.fna.fbcdn.net/v/t51.2885-15/e35/175613679_878736966016797_6434022748440995611_n.jpg?tp=1&_nc_ht=instagram.fbdq2-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=M1EQTfC5d9YAX-B5hjw&edm=AP_V10EAAAAA&ccb=7-4&oh=ae2ba594ce9b4fa410d005bb9969e4a1&oe=60A80AB6&_nc_sid=4f375e",
+                "likes":{
+                    "count":3,
+                    "likes_list":[
+                        {
+                            "id":1,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"aksh_sisodiya",
+                            "full_name":"Antariksh Sisodiya",
+                            "profile":"https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                            "link":"/"
+                        },
+                        {
+                            "id":2,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"hacker_man",
+                            "full_name":"Hacker Man",
+                            "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                            "link":"/"
+                        },
+                        {
+                            "id":3,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"gamer_boy",
+                            "full_name":"Gamer Boy",
+                            "profile": "https://i.pinimg.com/originals/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg",
+                            "link":"/"
+                        }
+                    ]
+                },
+                "comments":{
+                    "count":1,
+                    "comments_list":[
+                        {
+                            "id":1,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"hacker_man",
+                            "profile": "https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                            "full_name": "Hacker Man",
+                            "link":"/",
+                            "is_liked":true,
+                            "text":"Wahh bete moj kardi",
+                            "likes":{
+                                "count":3,
+                                "likes_list":[
+                                    {
+                                        "id":1,
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"aksh_sisodiya",
+                                        "full_name":"Antariksh Sisodiya",
+                                        "profile":"https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                                        "link":"/"
+                                    },
+                                    {
+                                        "id":2,
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"hacker_man",
+                                        "full_name":"Hacker Man",
+                                        "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                                        "link":"/"
+                                    },
+                                    {
+                                        "id":3,
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"gamer_boy",
+                                        "full_name":"Gamer Boy",
+                                        "profile": "https://i.pinimg.com/originals/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg",
+                                        "link":"/"
+                                    }
+                                ]
+                            },
+                            "replies":{
+                                "count":3,
+                                "replies_list":[
+                                    {
+                                        "id":1,
+                                        "to":{
+                                            "username":"hacker_man",
+                                            "full_name":"Hacker Man",
+                                            "link":"/"
+                                        },
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"gamer_boy",
+                                        "full_name":"Gamer Boy",
+                                        "profile": "https://i.pinimg.com/originals/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg",
+                                        "link":"/",
+                                        "text":"Hello",
+                                        "is_liked":true,
+                                        "likes":{
+                                            "count":2,
+                                            "likes_list":[
+                                                {
+                                                    "id":1,
+                                                    "time":"Tue, 2 Mar 18:00 pm",
+                                                    "username":"aksh_sisodiya",
+                                                    "full_name":"Antariksh Sisodiya",
+                                                    "profile":"https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                                                    "link":"/"
+                                                },
+                                                {
+                                                    "id":2,
+                                                    "time":"Tue, 2 Mar 18:00 pm",
+                                                    "username":"hacker_man",
+                                                    "full_name":"Hacker Man",
+                                                    "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                                                    "link":"/"
+                                                }
+                                            ]
+                                        }
+                                        
+                                    },
+                                    {
+                                        "id":2,
+                                        "to":{
+                                            "username":"gamer_boy",
+                                            "full_name":"Gamer Boy",
+                                            "link":"/"
+                                        },
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"hacker_man",
+                                        "full_name":"Hacker Man",
+                                        "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                                        "link":"/",
+                                        "text":"Hii",
+                                        "is_liked":true,
+                                        "replies":[],
+                                        "likes":{
+                                            "count":2,
+                                            "likes_list":[
+                                                {
+                                                    "id":1,
+                                                    "time":"Tue, 2 Mar 18:00 pm",
+                                                    "username":"aksh_sisodiya",
+                                                    "full_name":"Antariksh Sisodiya",
+                                                    "profile":"https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                                                    "link":"/"
+                                                },
+                                                {
+                                                    "id":2,
+                                                    "time":"Tue, 2 Mar 18:00 pm",
+                                                    "username":"gamer_boy",
+                                                    "full_name":"Gamer Boy",                                                
+                                                    "profile":"https://i.pinimg.com/originals/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg",
+                                                    "link":"/"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "id":3,
+                                        "to":{
+                                            "username":"hacker_man",
+                                            "full_name":"Hacker Man",
+                                            "link":"/"
+                                        },
+                                        "time":"Tue, 2 Mar 18:00 pm",
+                                        "username":"aksh_sisodiya",
+                                        "full_name":"Antariksh Sisodiya",
+                                        "profile": "https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI",
+                                        "link":"/",
+                                        "text":"Thanks",
+                                        "is_liked":false,
+                                        "likes":{
+                                            "count":1,
+                                            "time":"Tue, 2 Mar 18:00 pm",
+                                            "likes_list":[
+                                                {
+                                                    "id":1,
+                                                    "time":"Tue, 2 Mar 18:00 pm",
+                                                    "username":"hacker_man",
+                                                    "full_name":"Hacker Man",
+                                                    "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                                                    "link":"/"
+                                                }
+                                            ]
+                                        }
+                                        
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "shares":{
+                    "count":2,
+                    "likes_list":[
+                        {
+                            "id":1,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"hacker_man",
+                            "full_name":"Hacker Man",
+                            "profile":"https://i.pinimg.com/originals/73/16/f5/7316f550de9ca0045e3d8d98a5bb5e44.png",
+                            "link":"/"
+                        },
+                        {
+                            "id":1,
+                            "time":"Tue, 2 Mar 18:00 pm",
+                            "username":"gamer_boy",
+                            "full_name":"Gamer Boy",
+                            "profile": "https://i.pinimg.com/originals/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg",
+                            "link":"/"
+                        }
+                    ]
+                },
+                "is_saved":true,
+                "is_liked":true
+            }            
+        }
+    ]
+}

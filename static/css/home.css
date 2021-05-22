@@ -1,0 +1,120 @@
+/* Universal */
+.section-title{
+    font-size: 1.8em;
+    font-weight: 500;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 0.2em;
+    border-bottom: 0.1em solid var(--primary);
+    width: 25%;
+}
+@media (max-width: 750px) {
+    .section-title{
+        width: 75%;
+    }
+}
+.section-content{
+    font-size: 1.1em;
+    font-weight: 400;
+    text-align: center;
+}
+#scroll-top{
+    position: fixed; /* Fixed/sticky position */
+    bottom: 50px; /* Place the button at the bottom of the page */
+    right: 60px; /* Place the button 30px from the right */
+    z-index: 99;
+    height: 60px;
+    width: 60px;/* Make sure it does not overlap */
+    transition: all 0.2s ease-in-out;
+}
+#scroll-top button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 750px) {
+    #scroll-top{
+        bottom: 20px; /* Place the button at the bottom of the page */
+        right: 30px;
+        height: 40px;
+        width: 40px;
+    }
+}
+
+/* about-us */
+.about-us{
+
+}
+
+/* our service */
+.service-card{
+    border-radius: 50px;
+    background-color: #fff;
+    height: 25em;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.service-card:hover{
+    transform: scale(1.05);
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
+}
+.img-container{
+    width: 100%;
+    height: 50%;
+}
+.img-container .img{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+#service-card-1 .img-container .img{
+    background-image: url("https://images.pexels.com/photos/2897883/pexels-photo-2897883.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+}
+#service-card-2 .img-container .img{
+    background-image: url("https://images.pexels.com/photos/618613/pexels-photo-618613.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+}
+#service-card-3 .img-container .img{
+    background-image: url("https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+}
+.service-card .title{
+    font-size: 1.3em;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out;
+}
+.service-card .title:hover{
+    color: var(--primary);
+}
+.service-card .description{
+    font-size: 0.8em;
+}
+@media (max-width: 400px) {
+    .img-container{
+        height: 30%;
+    }
+    .service-card{
+        height: 20em;
+    }
+}
+
+/* Contact */
+.subscription{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subscription form{
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+    display: flex;
+}
+.subscription input{
+    outline: none !important;
+    border: none;
+    padding: 10px 20px;
+    width: 70%;
+}
+.subscription button{
+    width: 30%;
+}

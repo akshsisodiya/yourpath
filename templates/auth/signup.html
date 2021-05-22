@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+{% block style%}
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+background-color: #86c232;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+color: #fff;
+background-color: #86c232;
+}
+.custom-control-label {
+margin-bottom: 0;
+padding-left: .5em;
+padding-top: .05em;
+}
+.custom-control-label::after {
+position: absolute;
+top: .25rem;
+left: 0;
+display: block;
+width: 2rem;
+height: 2rem;
+content: "";
+background-repeat: no-repeat;
+background-position: center center;
+background-size: 56% 56%;
+}
+.custom-control-label::before {
+position: absolute;
+top: .25rem;
+left: 0;
+display: block;
+width: 2rem;
+height: 2rem;
+pointer-events: none;
+content: "";
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+background-color: #dee2e6;
+}
+@media screen and (device-aspect-ratio: 40/71) {
+.custom-radiobtn{
+text-align: left !important;
+}
+}
+
+{% endblock style %}
+{% block content%}
+<div class="container" style="display: flex; height: 100vh; flex-direction: column; justify-content: center">
+    <div class="row justify-content-center p3">
+        <div class="col-sm-8 col-lg-4 text-center form-container">
+            <div class="text-dark font-weight-bold h2 mb-4">YourPath</div>
+            <div id="register-form" class="p-3 bg-light rounded shadow">
+                <div class="mb-4 text-primary h4">Sign Up</div>
+                <form action="/auth/register/" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex mb-3 justify-content-center">
+                        <div class="p-2" style="font-size: 1.2em;">
+                            <input id='role-1' type="radio" name="radio-role" value="innovator" required>
+                            <label for='role-1'>Innovator</label>
+                        </div>
+                        <div class="p-2" style="font-size: 1.2em;">
+                            <input id='role-2' type="radio" name="radio-role" value="investor" required>
+                            <label for='role-2'>Investor</label>
+                        </div>
+                    </div>
+                    <input type="text" name="username" placeholder="Username"
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <input type="text" name="first_name" placeholder="First Name"
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <input type="text" name="last_name" placeholder="Last Name"
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <input type="email" name="email" placeholder="Email "
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <input type="password" name="password1" placeholder="Password"
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <input type="password" name="password2" placeholder="Confirm Password"
+                        class="form-control mb-3 shadow rounded-pill p-4" style="border:none;" required>
+                    <button class="btn btn-primary w-50 rounded-pill mb-2" type="submit">Sign Up</button>
+                </form>
+                <a id="turn-login" href="/auth/login/" style="cursor: pointer;">Already have an account? Login.</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

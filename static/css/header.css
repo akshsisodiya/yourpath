@@ -1,0 +1,127 @@
+/* Header base */
+.header{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow-x: hidden;
+}
+.header-img{
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-image: url("https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+    background-size: cover;
+    filter: brightness(0.4);
+    z-index: -1;
+}
+/* Header Content */
+.header-left{
+    position: absolute;
+    top:50%;
+    left:25%;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: all 1s ease-out;
+}
+.header-left.load{
+    top:60%;
+    opacity: 0;
+}
+.header-left .title{
+    color: white;
+    text-align: left;
+    text-shadow: 2px 3px 8px rgba(0,0,0,0.3);
+    font-weight: 600;
+    font-size: 6em;
+}
+.header-left .sub-title{
+    color: white;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.5em;
+}
+.header-top{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+}
+.header-login-btn{
+    width: 100%;
+    background-color: white;
+    border: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    border-radius: 20px;
+    transition: all 0.1s ease-in-out;
+    opacity: 0.8;
+    outline: none !important;
+}
+.header-login-btn:hover{
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow: 3px 5px 8px rgba(0,0,0,0.15);
+}
+.header-login-btn.clicked{
+    transform: scale(1);
+}
+.header-login-btn:active {
+    outline: none;
+    border: none;
+}
+.header-login-btn:focus {outline:0;}
+@media (min-width: 1250px) {
+    .header-left .title, .sub-title{
+        margin-bottom: 30px;
+    }
+}
+@media (max-width: 1250px) {
+    .header-left{
+        left: 30%;
+    }
+}
+@media (max-width: 1000px) {
+    .header-left{
+        left: 40%;
+    }
+}
+@media (max-width: 750px) {
+    .header-left{
+        left: 50%;
+    }
+    .header-left .title{
+        text-align: center;
+        font-size: 5em;
+    }
+}
+@media (max-width: 400px) {
+    .header-left .title{
+        font-size: 3em;
+    }
+}
+
+/* Header Navbar */
+.navbar{
+    position: fixed;
+    background-color: rgba(255,255,255,0.4);
+    z-index: 1;
+    width: 100%;
+    transition: top 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+}
+.nav-link{
+    font-size: 1.1em;
+    font-weight: 500;
+}
+.navbar-brand{
+    font-size: 1.7em;
+    font-weight: 600;
+}
+.nav-item{
+
+}

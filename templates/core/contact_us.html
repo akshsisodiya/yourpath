@@ -1,0 +1,38 @@
+<section class="contact container p-5" id="contact">
+    <div class="section-title mb-5">
+        CONTACT US
+    </div>
+    <div class="section-content">
+        <div class="row">
+            <div class="col-lg-6 p-3">
+                <div class="subscription">
+                    <h5 class="mb-3">Subscribe To Our News Letter</h5>
+                    <form id="subscription" class="form rounded-pill">
+                        {% csrf_token %}
+                            <input type="email" name="email" placeholder="email">
+                            <button class="btn btn-primary rounded-pill" type="submit">Submit</button>
+                    </form>
+                    <h6 class="mt-3"></h6>
+                </div>
+        </div>
+            <div class="col-lg-6 p-3">
+                <div class="support text-center">
+                    <h5>Support</h5>
+                    <form id="support" class="form">
+                        {% csrf_token %}
+                        <div class="row px-3">
+                            <div class="col-lg-6 py-3">
+                                <input type="text" class="form-control" name="name" placeholder="Name">
+                            </div>
+                            <div class="col-lg-6 py-3">
+                                <input type="email" class="form-control" name="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row p-3"><div class="col-lg-12"><textarea class="form-control" name="message" placeholder="Type your message here..."></textarea></div></div>
+                        <div class="row justify-content-center p-3"><div class="col-lg-6"><button type="submit" class="btn btn-primary rounded-pill btn-block">Submit</button></div></div>
+                        <h6 class="mt-3"></h6>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
