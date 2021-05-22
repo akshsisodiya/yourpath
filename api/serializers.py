@@ -7,7 +7,7 @@ from core.models import Post, Profile
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username"]
+        fields = ["username", 'first_name', 'last_name']
 
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
