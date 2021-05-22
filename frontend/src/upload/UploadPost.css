@@ -1,0 +1,6 @@
+.add-post-textarea {
+  border: none;
+  outline: none !important;
+  display: block;
+  resize: none;
+}
