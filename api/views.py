@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from core.models import Post,Profile,get_user
 # # Create your views here.
 
+
 # # TODO PWD_FOR_TESTUSER = X6BXfUdrpd2RgBV 
 
 class UserProfileApi(viewsets.ModelViewSet):
