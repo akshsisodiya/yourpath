@@ -8,6 +8,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["username", 'first_name', 'last_name']
 
+class MiniUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Profile
+        fields = ['user','profile']
+        depth = 1
+
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     saved = UserSerializer(read_only=True, many= True)
@@ -24,3 +31,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+
