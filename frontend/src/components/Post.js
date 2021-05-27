@@ -1,37 +1,39 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import CommentSection from './CommentSection'
-import {UserContext} from '../App'
+import { UserContext } from '../App'
 import useWindowDimensions from './windowDimension'
+import LoadingScreen from './LoadingScreen'
+import {Link} from 'react-router-dom'
 
-function PostTop({user, time}){
+function PostTop({ user, time, me }) {
     const [postActionShow, setPostActionShow] = useState(false)
     const postActionRef = useRef()
     const postActionButton = useRef()
-    useEffect(function(){
-        if(postActionShow){
+    useEffect(function () {
+        if (postActionShow) {
             document.addEventListener('mousedown', handleOutsideClick)
-            return ()=> document.removeEventListener('mousedown',handleOutsideClick)
+            return () => document.removeEventListener('mousedown', handleOutsideClick)
         }
     })
-    function postActionClick(e){
+    function postActionClick(e) {
         setPostActionShow(!postActionShow)
-    }    
-    function handleOutsideClick(e){
-        if(!postActionRef.current.contains(e.target) && !postActionButton.current.contains(e.target)){            
+    }
+    function handleOutsideClick(e) {
+        if (!postActionRef.current.contains(e.target) && !postActionButton.current.contains(e.target)) {
             setPostActionShow(false)
         }
     }
-    return(
+    return (
         <div className="post-top">
             <div className="post-top-left">
-                <a href={user.link}>
+                <Link to={'/user/'+user.user.username}>
                     <img src={user.profile}
                         alt="" />
-                </a>
+                </Link>
                 <div>
-                    <a href={user.link}>
-                        <h4>{user.full_name}</h4>
-                    </a>
+                    <Link to={'/user/'+user.user.username}>
+                        <h4>{user.user.first_name+' '+user.user.last_name}</h4>
+                    </Link>
                     <h6>{time}</h6>
                 </div>
             </div>
@@ -39,39 +41,39 @@ function PostTop({user, time}){
                 <div className="post-actions-button" ref={postActionButton} onClick={postActionClick}>
                     <i className="fas fa-ellipsis-h" ></i>
                 </div>
-            {postActionShow && <PostActionContainer user={user} forwardedRef={postActionRef}/>}    
+                {postActionShow && <PostActionContainer user={user.user} me={me} forwardedRef={postActionRef} />}
             </div>
         </div>
-)
+    )
 }
 
-function PostActionContainer({user, forwardedRef}){
-    return(
-            <div className="post-actions-container" id='post-actions-container' ref={forwardedRef}> 
-                <div className="post-actions">
-                    <h6 className="post-action">{user.is_followed? "Unfollow":"Follow"}</h6>
-                    <h6 className="post-action">Share profile</h6>
-                    <h6 className="post-action">Report</h6>
-                </div>
+function PostActionContainer({ user, forwardedRef, me }) {
+    return (
+        <div className="post-actions-container" id='post-actions-container' ref={forwardedRef}>
+            <div className="post-actions">
+                <h6 className="post-action">{user.username in me.followers ? "Unfollow" : "Follow"}</h6>
+                <h6 className="post-action">Share profile</h6>
+                <h6 className="post-action">Report</h6>
             </div>
+        </div>
     )
 }
 
-function PostMid({img, text}){
-    return(
-       <div className="post-mid">
-           <div className="post-mid-text">
-                        <p>{text}</p>
-                    </div>
-                    <div className="post-mid-img">
-                        <img src={img}
-                            alt="" />
-                    </div>
-       </div> 
+function PostMid({ img, text }) {
+    return (
+        <div className="post-mid">
+            <div className="post-mid-text">
+                <p>{text}</p>
+            </div>
+            <div className="post-mid-img">
+                <img src={img}
+                    alt="" />
+            </div>
+        </div>
     )
 }
 
-function PostBottom({likes, comments, shares, is_saved, is_liked}){
+function PostBottom({ likes, comments, shares, is_saved, is_liked }) {
 
     const userDetail = useContext(UserContext)
     const { height, width } = useWindowDimensions();
@@ -85,27 +87,27 @@ function PostBottom({likes, comments, shares, is_saved, is_liked}){
     // const [likesListShow, setLikesListShow] = useState(false)
     // const [sharesListShow, setSharesListShow] = useState(false)
     const [showComments, setShowComments] = useState(false)
-    const username = userDetail.username
+    const username = userDetail.user.username
 
     // to prevent like call on intial rendering
     var initialRender = false
-    useEffect(()=>{
+    useEffect(() => {
         initialRender = true
-    },[])
+    }, [])
 
     // Like button 
-    useEffect(()=>{
-        if(initialRender){
+    useEffect(() => {
+        if (initialRender) {
             initialRender = false
         }
-        else{
+        else {
             isLiked ? ifLiked() : ifNotLiked()
         }
-    },[isLiked])    
+    }, [isLiked])
 
     // this code is not working
-    function ifNotLiked(){
-        setLikesCount(likesCount-1)
+    function ifNotLiked() {
+        setLikesCount(likesCount - 1)
         // for(var i in likesList){
         //     if(likesList[i].username == username){                
         //         let new_list = likesList
@@ -116,8 +118,8 @@ function PostBottom({likes, comments, shares, is_saved, is_liked}){
         // }
     }
     // some green color shit
-    function ifLiked(){
-        setLikesCount(likesCount+1)
+    function ifLiked() {
+        setLikesCount(likesCount + 1)
         // const currentDate = new Date()
         // let new_list = userDetail
         // new_list.time = currentDate.getTime()
@@ -125,14 +127,14 @@ function PostBottom({likes, comments, shares, is_saved, is_liked}){
         // setLikesList(new_list)
     }
 
-    function postSave(e){
+    function postSave(e) {
         setIsSaved(!isSaved)
     }
 
-    function commentClick(e){
+    function commentClick(e) {
         setShowComments(!showComments)
     }
-    function shareClick(e){
+    function shareClick(e) {
         // postLike(e)
     }
 
@@ -141,50 +143,79 @@ function PostBottom({likes, comments, shares, is_saved, is_liked}){
         e.stopPropagation()
     }
 
-    return ( 
-    <div className="post-bottom">
-        <div className="post-details">
-            <h6 >{likesCount} likes</h6>
-            <h6>{commentsCount} comments</h6>
-            <h6>{sharesCount} shares</h6>
-        </div>
-        <div className="post-options">            
-            <div className={isLiked? "post-like post-option active": "post-like post-option"} onClick={()=>{setIsLiked(!isLiked)}}>
-                <i className={isLiked?"fas fa-thumbs-up":"far fa-thumbs-up"} onClick={iconClick} ></i>
-                {/* <!-- remove far & add fas --> */}
-                <h6 onClick={iconClick}>Like</h6>
+    return (
+        <div className="post-bottom">
+            <div className="post-details">
+                <h6 >{likesCount} likes</h6>
+                <h6>{commentsCount} comments</h6>
+                <h6>{sharesCount} shares</h6>
             </div>
-            <div className="post-comment post-option" onClick={commentClick}>
-                <i className="fas fa-comment" onClick={iconClick}></i>
-                <h6 onClick={iconClick}>Comment</h6>
+            <div className="post-options">
+                <div className={isLiked ? "post-like post-option active" : "post-like post-option"} onClick={() => { setIsLiked(!isLiked) }}>
+                    <i className={isLiked ? "fas fa-thumbs-up" : "far fa-thumbs-up"} onClick={iconClick} ></i>
+                    {/* <!-- remove far & add fas --> */}
+                    <h6 onClick={iconClick}>Like</h6>
+                </div>
+                <div className="post-comment post-option" onClick={commentClick}>
+                    <i className="fas fa-comment" onClick={iconClick}></i>
+                    <h6 onClick={iconClick}>Comment</h6>
+                </div>
+                <div className="post-share post-option" onClick={shareClick}>
+                    <i className="fas fa-share" onClick={iconClick}></i>
+                    <h6 onClick={iconClick}>Share</h6>
+                </div>
+                <div className={isSaved ? "post-save post-option active" : "post-save post-option"} onClick={postSave}>
+                    <i className={isSaved ? "fas fa-bookmark" : "far fa-bookmark"} onClick={iconClick}></i>
+                    {/* <!-- remove far & add fas --> */}
+                    <h6 onClick={iconClick}>Save</h6>
+                </div>
             </div>
-            <div className="post-share post-option" onClick={shareClick}>
-                <i className="fas fa-share" onClick={iconClick}></i>
-                <h6 onClick={iconClick}>Share</h6>
-            </div>
-            <div className={isSaved ? "post-save post-option active": "post-save post-option"} onClick={postSave}>
-                <i className={isSaved ?"fas fa-bookmark":"far fa-bookmark"} onClick={iconClick}></i>
-                {/* <!-- remove far & add fas --> */}
-                <h6 onClick={iconClick}>Save</h6>
-            </div>
-        </div>
-        { width>780 && <CommentSection comments={comments} showComments={showComments} />}
-    </div> )
+            { width > 780 && <CommentSection comments={comments} showComments={showComments} />}
+        </div>)
 }
 
-function Post({post}) {
-    
+function Post({ post }) {
+    const userDetail = useContext(UserContext)
+    // const [post, setPost] = useState(null)
+    // useEffect(async () => {
+    //     const res = await fetch('/api/get-post/' + post_id)
+    //     const result = await res.json()
+    //     setPost(result[0])
+    // }, [])
+    function Empty(props) {
+        let margin = props.m ? props.m : 'my-1'
+        let padding = props.p ? props.p : 'py-1'
+        let width = props.w ? props.w : null
+        let count = props.rep ? parseInt(props.rep) : 1
+        let classes = `bg-light rounded ${margin} ${padding}`
+        let styles = width ? { width: width } : {}
+        let list = []
+        for (let i = 0; i < count; i++) {
+            list.push(i)
+        }
+        return (
+            <div>
+                {
+                    list.map(i => {
+                        return <div key={i} className={classes}></div>
+                    })
+                }
+            </div>
+        )
+    }
     return (
-        <div className="post">
-            <PostTop user={post.user_detail} time={post.post_detail.time} />
-            <PostMid img={post.post_detail.img} text={post.post_detail.text} />
-            <PostBottom 
-                likes={post.post_detail.likes} 
-                comments={post.post_detail.comments}
-                shares={post.post_detail.shares} 
-                is_saved={post.post_detail.is_saved}
-                is_liked={post.post_detail.is_liked}
-            />
+        <div className="post" style={{ position: 'relative' }}>
+            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} /> : <Empty m='mb-5' p='py-4' />}
+            {post ? <PostMid img={post.post_img} text={post.text} /> : <Empty m='mb-3' p='py-2' rep='3' />}
+
+            {post ? <PostBottom
+                id = {post.id}
+                likes={post.likes}
+                comments={post.comments}
+                shares={post.shares}
+                is_saved={userDetail.user in post.saved}
+                is_liked={userDetail.user in post.likes}
+            /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )
 }

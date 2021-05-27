@@ -6,7 +6,7 @@ function PostContainer(){
     return (
         <div className="post-container">
            { postData.posts.map((post)=>{
-                return <Post post={post} key={post.id}/>
+                return <Post post={null} key={post.id}/>
             })}            
         </div>
     )

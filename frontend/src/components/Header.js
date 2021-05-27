@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-
+import { Link, useHistory } from 'react-router-dom'
 
 
 function SearchResult(props) {
@@ -31,6 +31,7 @@ function Header({ curMainTab, setCurMainTab }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [addPostTab, setAddPostTab] = useState(false)
     const addPostList = useRef()
+    const history = useHistory()
     function searchBarOnFocus(e) {
         setSearchResultBool(true)
     }
@@ -53,8 +54,8 @@ function Header({ curMainTab, setCurMainTab }) {
         document.getElementById(curMainTab + '-nav').classList.add('active')
     }, [curMainTab])
     function tabClick(e) {
-
-        setCurMainTab(e.target.id.slice(0, -4))
+        // setCurMainTab(e.target.id.slice(0, -4))
+        history.push('/' + e.target.id.slice(0, -4), { from: window.location.pathname })
     }
 
     // useEffect(()=>{

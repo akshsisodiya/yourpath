@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext } from "react"
 import "./profile.css"
-import { UserContext, UrlAddress } from '../App'
+import { UserContext } from '../App'
 import postData from '../components/postData.json'
 import Post from '../components/Post'
 import LoadingScreen from '../components/LoadingScreen'
+import EditProfile from './EditProfile'
+import userEvent from "@testing-library/user-event"
 
-function ProfileMain({ user }) {
+function ProfileMain({ user, self }) {
     const userDetail = useContext(UserContext)
     return (
         <div className="col-lg-3" id="profile-main">
@@ -31,34 +33,39 @@ function ProfileMain({ user }) {
                 <div className="col-12 mb-2">
                     <div className="row justify-content-around">
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">{user.user_follower}</div>
+                            <div className="h6 mb-0">{user.followers.length}</div>
                             <span>Following</span>
                         </div>
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">{user.user_following}</div>
+                            <div className="h6 mb-0">{user.followings.length}</div>
                             <span>Followers</span>
                         </div>
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">{user.user_total_post}</div>
+                            <div className="h6 mb-0">{user.posts.length}</div>
                             <span>Posts</span>
                         </div>
                     </div>
                 </div>
+                {self ? 
                 <div className="col-12 mb-2">
                     <button className="btn" id='edit-profile-btn'>Edit Profile</button>
-                </div>
+                </div> :
+                <div className="col-12 mb-2">
+                    <button className="btn" id='edit-profile-btn'>Follow</button>
+                </div>    
+                }
             </div>
         </div>
     )
 }
 
-function ProfileContent() {
+function ProfileContent({data}) {
     const userDetail = useContext(UserContext)
 
     function CoverPhoto() {
         return (
-            <div className="cover-img-container d-none d-lg-block">
-                <img src={userDetail.cover} alt="" />
+            <div className="cover-img-container d-none d-lg-block" style={{height: '200px'}}>
+                <img style={{width:'100%', height: '100%', objectFit:'cover'}} src={data.cover} alt="" />
             </div>
         )
     }
@@ -113,7 +120,7 @@ function ProfileContent() {
         );
     }
 
-    function Content({ curTab, setCurTab }) {
+    function Content({ curTab, setCurTab, postData }) {
 
         function OverView() {
             function TopPost() {
@@ -153,10 +160,7 @@ function ProfileContent() {
             return (
                 <div className="profile-content p-3" id="posts-content">
                     <div className="row px-2">
-                        {postData.posts.map((post) => {
-                            return <Post post={post} key={post.id} />
-                        })}
-                        {postData.posts.map((post) => {
+                        {postData.map((post) => {
                             return <Post post={post} key={post.id} />
                         })}
                     </div>
@@ -212,7 +216,7 @@ function ProfileContent() {
         return (
             <div className="row" id="profile-feed">
                 {curTab == 'overview' && <OverView />}
-                {curTab == 'posts' && <PostsGrid />}
+                {curTab == 'posts' && <PostsGrid postData={data} />}
                 {curTab == 'projects' && <ProjectGrid />}
                 {curTab == 'saved' && <SavedGrid />}
             </div>
@@ -225,31 +229,34 @@ function ProfileContent() {
         <div className="col-lg-8" id="profile-content">
             <CoverPhoto />
             <Navbar curTab={curTab} setCurTab={setCurTab} />
-            <Content curTab={curTab} setCurTab={setCurTab} />
+            <Content curTab={curTab} setCurTab={setCurTab} postData={data} />
         </div>
     );
 }
 
 function Profile() {
     const [userDetail, setUserDetail] = useState(null)
-    const rootUrl = window.location.origin + '/'
-    const url = useContext(UrlAddress)
+    const self = true
     useEffect(async () => {
         const response = await fetch('/api/UserProfileModel/')
         const jsonResponse = await response.json()
         setUserDetail(jsonResponse[0])
-        // console.log(jsonResponse[0])
+        // console.log(jsonResponse[0])        
     }, [])
 
     return (
         <div className="profile-page mt-3" id='profile'>
             <div className="container">
                 {userDetail ? <div className="row justify-content-around">
-                    <ProfileMain user={userDetail} />
-                    <ProfileContent />
+                    <ProfileMain user={userDetail} self={self} />
+                    <ProfileContent data={userDetail} />
                 </div> : <LoadingScreen />}
             </div>
         </div>
+        // <div className="profile-page mt-3" id='profile'>
+        //     {userDetail ? <EditProfile user={userDetail} /> : <LoadingScreen />}
+        // </div>
+
     );
 }
 

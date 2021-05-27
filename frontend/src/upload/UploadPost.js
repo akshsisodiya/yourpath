@@ -4,7 +4,55 @@ import { UserContext } from '../App'
 
 function UploadPost() {
     const userDetail = useContext(UserContext)
+    const [postCaption, setPostCaption] = useState('')
+    const [postImg, setPostImg] = useState(null)
+    const [errorMsg, setErrorMsg] = useState(null)
+    function getCookie(name) {
+        let cookieValue = null
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';')
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim()
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+                    break;
+                }
+            }
+        }
+        return cookieValue
+    }
+    const csrftoken = getCookie('csrftoken')
+    function handlePostUpload(e) {
 
+        e.preventDefault()
+
+        async function upload(data) {
+            console.log('cookie csrf :' + csrftoken)
+            const resp = await fetch('/api/post/', data)
+            console.log(resp)
+        }
+
+        if (postCaption != null && postCaption != '' && postImg != null) {
+            const data = {
+                method: 'POST',
+                header: { 'Accept': 'application/json', "Content-Type": 'application/json', "X-CSRFToken": csrftoken },
+                body: JSON.stringify({
+                    postimg: postImg.rowImage,
+                    caption: postCaption,
+                    csrfmiddlewaretoken: csrftoken
+                })
+            }
+            // upload function
+            upload(data)
+        } else {
+            if (postImg != null) {
+                errorMsg ? setErrorMsg(...errorMsg, 'Please Upload Image') : setErrorMsg(['Please Upload Image'])
+            } else {
+                errorMsg ? setErrorMsg(...errorMsg, 'Please Add Caption') : setErrorMsg(['Please Add Caption'])
+            }
+        }
+    }
     return (
         <div className="container mt-3">
             <div className="row justify-content-center">
@@ -13,20 +61,23 @@ function UploadPost() {
                         <img src={userDetail.profile} className='rounded-circle mr-3' width='40' height='40' alt="" />
                         <h5 className='text-dark mb-0'>{userDetail.full_name}</h5>
                     </div>
-                    <form action="" className="p-3">
-                        <Text />
-                        <File />
-                        <button className="btn rounded-pill text-white d-block mx-auto" style={{ backgroundColor: 'var(--theme-blue)' }}>Upload Post</button>
+                    <form action="" className="p-3" onSubmit={handlePostUpload}>
+                        <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken} />
+                        <Text textAreaInput={postCaption} setTextAreaInput={setPostCaption} />
+                        <File file={postImg} setFile={setPostImg} />
+                        <button type='submit' className="btn rounded-pill text-white d-block mx-auto" style={{ backgroundColor: 'var(--theme-blue)' }}>Upload Post</button>
                     </form>
+                    {errorMsg && errorMsg.map(msg => {
+                        <h5>{msg}</h5>
+                    })}
                 </div>
             </div>
         </div>
     )
 }
 
-function Text() {
+function Text({ textAreaInput, setTextAreaInput }) {
     const textAreaRef = useRef()
-    const [textAreaInput, setTextAreaInput] = useState("")
     useEffect(() => {
         if (textAreaInput.length > 80) {
             textAreaRef.current.style.fontSize = '1em'
@@ -40,16 +91,16 @@ function Text() {
     return (
         <div className="p-2">
             <div class="form-group">
-                <textarea ref={textAreaRef} class="add-post-textarea w-100" onChange={e => { setTextAreaInput(e.target.value) }} value={textAreaInput} name="caption" id="caption" rows='10' placeholder='Type Something...' ></textarea>
+                <textarea ref={textAreaRef} required class="add-post-textarea w-100" onChange={e => { setTextAreaInput(e.target.value) }} value={textAreaInput} name="caption" id="caption" rows='10' placeholder='Type Something...' ></textarea>
             </div>
         </div>
     )
 }
 
-function File() {
+function File({ file, setFile }) {
     function FileSelector({ setFile }) {
         function handleFileChange(e) {
-            setFile({ url: URL.createObjectURL(e.target.files[0]), name: e.target.files[0].name })
+            setFile({ url: URL.createObjectURL(e.target.files[0]), name: e.target.files[0].name, rowImage: e.target.files[0] })
         }
         return (
             <div>
@@ -61,24 +112,24 @@ function File() {
             </div>
         )
     }
-    function FileShower({ file, setFile }) {
-        return (
-            <div className='row border rounded'>
-                <div className="col-3">
-                    <img src={file.url} className='img-fluid' alt="" />
-                </div>
-                <div className="col-8">
-                    <div>{file.name}</div>
-                </div>
-                <div onClick={setFile(null)} className="col-1"><i className="fa fa-times" aria-hidden="true"></i></div>
-            </div>
-        )
-    }
+    // function FileShower({ file, setFile }) {
+    //     return (
+    //         <div className='row border rounded'>
+    //             <div className="col-3">
+    //                 <img src={file.url} className='img-fluid' alt="" />
+    //             </div>
+    //             <div className="col-8">
+    //                 <div>{file.name}</div>
+    //             </div>
+    //             <div onClick={setFile(null)} className="col-1"><i className="fa fa-times" aria-hidden="true"></i></div>
+    //         </div>
+    //     )
+    // }
     const formFile = useRef()
-    const [file, setFile] = useState(null)
     return (
         <div>
-            {file == null ? <FileSelector file={file} setFile={setFile} /> : <FileShower file={file} setFile={setFile} />}
+            {/* {file == null ? <FileSelector file={file} setFile={setFile} /> : <FileShower file={file} setFile={setFile} />} */}
+            <FileSelector file={file} setFile={setFile} />
         </div>
     )
 }
