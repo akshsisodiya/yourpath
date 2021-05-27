@@ -26,9 +26,7 @@ class UserProfileApi(viewsets.ModelViewSet):
 
 class MiniUserProfileApi(viewsets.ModelViewSet):
     serializer_class = MiniUserSerializer
-    def list(self,request,*args,**kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
+    def get_queryset(self):
         return Profile.objects.filter(user=get_user(self.request.GET.get('username')))
 
 @method_decorator(csrf_protect,name='dispatch')
