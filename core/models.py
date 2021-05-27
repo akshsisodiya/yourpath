@@ -64,6 +64,7 @@ class Post(models.Model):
     comments = models.ManyToManyField(Comment, related_name="post_comment", blank=True)
     shares = models.ManyToManyField(User, related_name="post_shares", blank=True)
     saved = models.ManyToManyField(User, related_name="post_saved", blank=True)
+    # post_time_stamp = models.DateTimeField()
 
     class Manager():
         def __init__(self, post):
