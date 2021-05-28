@@ -124,12 +124,11 @@ function ProfileContent({data}) {
 
         function OverView() {
             function TopPost() {
+                const topPost = postData.posts.sort(post=>{return post.likes.length})[0]
                 return (
                     <div className="col-lg-12">
-                        <div className="h4 p-2 ml-3" style={{ color: 'var(--theme-blue)' }}>Top Post</div>
-                        {postData.posts.map((post) => {
-                            return <Post post={post} key={post.id} />
-                        })}
+                        <div className="h4 p-2 ml-3" style={{ color: 'var(--theme-blue)' }}>Top Post</div>   
+                        <Post post={topPost} key={topPost.id} />
                     </div>
                 )
             }
@@ -160,7 +159,7 @@ function ProfileContent({data}) {
             return (
                 <div className="profile-content p-3" id="posts-content">
                     <div className="row px-2">
-                        {postData.map((post) => {
+                        {postData.posts.reverse().map((post) => {
                             return <Post post={post} key={post.id} />
                         })}
                     </div>
@@ -197,10 +196,7 @@ function ProfileContent({data}) {
             return (
                 <div className="profile-content p-3" id="saved-content">
                     <div className="row px-2">
-                        {postData.posts.map((post) => {
-                            return <Post post={post} key={post.id} />
-                        })}
-                        {postData.posts.map((post) => {
+                        {postData.saved_posts.reverse().map((post) => {
                             return <Post post={post} key={post.id} />
                         })}
                     </div>

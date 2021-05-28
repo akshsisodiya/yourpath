@@ -3,7 +3,7 @@ import CommentSection from './CommentSection'
 import { UserContext } from '../App'
 import useWindowDimensions from './windowDimension'
 import LoadingScreen from './LoadingScreen'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function PostTop({ user, time, me }) {
     const [postActionShow, setPostActionShow] = useState(false)
@@ -26,13 +26,13 @@ function PostTop({ user, time, me }) {
     return (
         <div className="post-top">
             <div className="post-top-left">
-                <Link to={'/user/'+user.user.username}>
+                <Link to={'/user/' + user.user.username}>
                     <img src={user.profile}
                         alt="" />
                 </Link>
                 <div>
-                    <Link to={'/user/'+user.user.username}>
-                        <h4>{user.user.first_name+' '+user.user.last_name}</h4>
+                    <Link to={'/user/' + user.user.username}>
+                        <h4>{user.user.first_name + ' ' + user.user.last_name}</h4>
                     </Link>
                     <h6>{time}</h6>
                 </div>
@@ -73,14 +73,14 @@ function PostMid({ img, text }) {
     )
 }
 
-function PostBottom({ likes, comments, shares, is_saved, is_liked }) {
+function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
 
     const userDetail = useContext(UserContext)
     const { height, width } = useWindowDimensions();
 
-    const [likesCount, setLikesCount] = useState(likes.count)
-    const [commentsCount, setCommentsCount] = useState(comments.count)
-    const [sharesCount, setSharesCount] = useState(shares.count)
+    const [likesCount, setLikesCount] = useState(likes.length)
+    const [commentsCount, setCommentsCount] = useState(comments.length)
+    const [sharesCount, setSharesCount] = useState(shares.length)
     // const [likesList, setLikesList] = useState(likes.likes_list)
     const [isLiked, setIsLiked] = useState(is_liked)
     const [isSaved, setIsSaved] = useState(is_saved)
@@ -90,41 +90,31 @@ function PostBottom({ likes, comments, shares, is_saved, is_liked }) {
     const username = userDetail.user.username
 
     // to prevent like call on intial rendering
-    var initialRender = false
-    useEffect(() => {
-        initialRender = true
-    }, [])
+    // var initialRender = false
+    // useEffect(() => {
+    //     initialRender = true
+    // }, [])
 
-    // Like button 
-    useEffect(() => {
-        if (initialRender) {
-            initialRender = false
-        }
-        else {
-            isLiked ? ifLiked() : ifNotLiked()
-        }
-    }, [isLiked])
+    // // Like button 
+    // useEffect(() => {
+    //     if (initialRender) {
+    //         initialRender = false
+    //     }
+    //     else {
 
-    // this code is not working
-    function ifNotLiked() {
-        setLikesCount(likesCount - 1)
-        // for(var i in likesList){
-        //     if(likesList[i].username == username){                
-        //         let new_list = likesList
-        //         new_list.splice(i, 1)                
-        //         setLikesList(new_list)
-        //         break
-        //     }
-        // }
-    }
-    // some green color shit
-    function ifLiked() {
-        setLikesCount(likesCount + 1)
-        // const currentDate = new Date()
-        // let new_list = userDetail
-        // new_list.time = currentDate.getTime()
-        // new_list=[new_list,...likesList]
-        // setLikesList(new_list)
+    //     }
+    // }, [isLiked])
+
+    function likePost(e) {
+        setIsLiked(!isLiked)
+        setLikesCount(likesCount + (isLiked ? -1 : 1))
+        async function like() {
+            const resp = await fetch('/add-like/' + id + '/')
+            const data = await resp.json()
+            // isLiked != data.is_liked && setIsLiked(data.is_liked)
+            // likesCount != data.count && setLikesCount(data.count)
+        }
+        like()
     }
 
     function postSave(e) {
@@ -151,7 +141,7 @@ function PostBottom({ likes, comments, shares, is_saved, is_liked }) {
                 <h6>{sharesCount} shares</h6>
             </div>
             <div className="post-options">
-                <div className={isLiked ? "post-like post-option active" : "post-like post-option"} onClick={() => { setIsLiked(!isLiked) }}>
+                <div className={isLiked ? "post-like post-option active" : "post-like post-option"} onClick={likePost}>
                     <i className={isLiked ? "fas fa-thumbs-up" : "far fa-thumbs-up"} onClick={iconClick} ></i>
                     {/* <!-- remove far & add fas --> */}
                     <h6 onClick={iconClick}>Like</h6>
@@ -209,12 +199,12 @@ function Post({ post }) {
             {post ? <PostMid img={post.post_img} text={post.text} /> : <Empty m='mb-3' p='py-2' rep='3' />}
 
             {post ? <PostBottom
-                id = {post.id}
+                id={post.id}
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
-                is_saved={userDetail.user in post.saved}
-                is_liked={userDetail.user in post.likes}
+                is_saved={true in post.saved.map(user => { return user.username == userDetail.user.username })}
+                is_liked={true in post.likes.map(user => { return user.username == userDetail.user.username })}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )
