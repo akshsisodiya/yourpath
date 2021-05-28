@@ -11,6 +11,7 @@ from core.models import Post,Profile,get_user
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions
 # # Create your views here.
 from rest_framework.decorators import api_view
@@ -49,6 +50,7 @@ class UploadPost(APIView):
 @method_decorator(csrf_protect,name='dispatch')
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser]   
 
     def post(self,request,format= None):
         data = self.request.data
