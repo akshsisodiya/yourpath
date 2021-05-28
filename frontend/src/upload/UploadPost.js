@@ -31,9 +31,12 @@ function UploadPost() {
         async function upload(data) {            
             axios.defaults.xsrfCookieName = 'csrftoken'
             axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-            const resp = await axios.post('/api/post/', data,{'Content-Type': 'multipart/form-data'}) 
-            const respdata = await resp.data
-            return [resp.status, respdata]
+            try{
+                const resp = await axios.post('/api/post/', data,{'Content-Type': 'multipart/form-data'})
+                return resp
+            }catch(err){
+                return false
+            }
         }
 
         if (postCaption != null && postCaption != '' && postImg != null) {
@@ -43,8 +46,8 @@ function UploadPost() {
                 csrfmiddlewaretoken: csrftoken
             }
             // upload function
-            const {status, resp} = upload(data)
-            if(status==200){
+            const res = upload(data)
+            if(res){
                 setErrorMsg(['Posted Successfully'])
                 setPostCaption(null)
                 setPostImg(null)
