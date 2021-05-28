@@ -202,8 +202,8 @@ function Post({ post }) {
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
-                is_saved={true in (post.saved.map(user => { return user == userDetail.user }))}
-                is_liked={true in (post.likes.map(user => { return user == userDetail.user }))}
+                is_saved={true in (post.saved.map(user => { return user.username == userDetail.user.username }))}
+                is_liked={true in (post.likes.map(user => { return user.username == userDetail.user.username }))}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )
