@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import './UploadPost.css'
 import { UserContext } from '../App'
+import axios from 'axios'
 
 function UploadPost() {
     const userDetail = useContext(UserContext)
-    const [postCaption, setPostCaption] = useState('')
+    const [postCaption, setPostCaption] = useState(null)
     const [postImg, setPostImg] = useState(null)
     const [errorMsg, setErrorMsg] = useState(null)
     function getCookie(name) {
@@ -22,29 +23,34 @@ function UploadPost() {
         }
         return cookieValue
     }
-    const csrftoken = getCookie('csrftoken')
+    const csrftoken = getCookie('csrftoken')    
     function handlePostUpload(e) {
 
         e.preventDefault()
 
-        async function upload(data) {
-            console.log('cookie csrf :' + csrftoken)
-            const resp = await fetch('/api/post/', data)
-            console.log(resp)
+        async function upload(data) {            
+            axios.defaults.xsrfCookieName = 'csrftoken'
+            axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+            const resp = await axios.post('/api/post/', data,{'Content-Type': 'multipart/form-data'}) 
+            const respdata = await resp.data
+            return [resp.status, respdata]
         }
 
         if (postCaption != null && postCaption != '' && postImg != null) {
             const data = {
-                method: 'POST',
-                header: { 'Accept': 'application/json', "Content-Type": 'application/json', "X-CSRFToken": csrftoken },
-                body: JSON.stringify({
-                    postimg: postImg.rowImage,
-                    caption: postCaption,
-                    csrfmiddlewaretoken: csrftoken
-                })
+                postimg: postImg.rowImage,
+                caption: postCaption,
+                csrfmiddlewaretoken: csrftoken
             }
             // upload function
-            upload(data)
+            const {status, resp} = upload(data)
+            if(status==200){
+                setErrorMsg(['Posted Successfully'])
+                setPostCaption(null)
+                setPostImg(null)
+            }else{
+                setErrorMsg(['Something went wrong, please try again never..'])
+            }
         } else {
             if (postImg != null) {
                 errorMsg ? setErrorMsg(...errorMsg, 'Please Upload Image') : setErrorMsg(['Please Upload Image'])
@@ -66,11 +72,11 @@ function UploadPost() {
                         <Text textAreaInput={postCaption} setTextAreaInput={setPostCaption} />
                         <File file={postImg} setFile={setPostImg} />
                         <button type='submit' className="btn rounded-pill text-white d-block mx-auto" style={{ backgroundColor: 'var(--theme-blue)' }}>Upload Post</button>
-                    </form>
+                    </form> 
                     {errorMsg && errorMsg.map(msg => {
-                        <h5>{msg}</h5>
+                        return <h5>{msg}</h5>
                     })}
-                </div>
+                </div>                
             </div>
         </div>
     )
@@ -79,12 +85,14 @@ function UploadPost() {
 function Text({ textAreaInput, setTextAreaInput }) {
     const textAreaRef = useRef()
     useEffect(() => {
-        if (textAreaInput.length > 80) {
-            textAreaRef.current.style.fontSize = '1em'
-            textAreaRef.current.rows = 10
-        } else {
-            textAreaRef.current.style.fontSize = '1.6em'
-            textAreaRef.current.rows = 6
+        if(textAreaInput){
+            if (textAreaInput.length > 80) {
+                textAreaRef.current.style.fontSize = '1em'
+                textAreaRef.current.rows = 10
+            } else {
+                textAreaRef.current.style.fontSize = '1.6em'
+                textAreaRef.current.rows = 6
+            }
         }
 
     }, [textAreaInput])
@@ -112,24 +120,22 @@ function File({ file, setFile }) {
             </div>
         )
     }
-    // function FileShower({ file, setFile }) {
-    //     return (
-    //         <div className='row border rounded'>
-    //             <div className="col-3">
-    //                 <img src={file.url} className='img-fluid' alt="" />
-    //             </div>
-    //             <div className="col-8">
-    //                 <div>{file.name}</div>
-    //             </div>
-    //             <div onClick={setFile(null)} className="col-1"><i className="fa fa-times" aria-hidden="true"></i></div>
-    //         </div>
-    //     )
-    // }
+    function FileShower({ file, setFile }) {
+        return (
+            <div className='row border rounded'>
+                <div className="col-3">
+                    <img src={file.url} className='img-fluid' alt="" />
+                </div>
+                <div className="col-8">
+                    <div>{file.name}</div>
+                </div>                
+            </div>
+        )
+    }
     const formFile = useRef()
     return (
         <div>
-            {/* {file == null ? <FileSelector file={file} setFile={setFile} /> : <FileShower file={file} setFile={setFile} />} */}
-            <FileSelector file={file} setFile={setFile} />
+            {file == null ? <FileSelector file={file} setFile={setFile} /> : <FileShower file={file} setFile={setFile} />}            
         </div>
     )
 }

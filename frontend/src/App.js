@@ -35,13 +35,11 @@ function App() {
     fetchData()
   }, [])
   const [curMainTab, setCurMainTab] = useState('home')
-  console.log('state tab:' + curMainTab)
 
   function TabComponent({ children, tabName }) {
     if (curMainTab != tabName) {
       setCurMainTab(tabName)
     }
-    console.log('tab name :' + tabName)
     return children
   }
 
