@@ -106,6 +106,7 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
     // }, [isLiked])
 
     function likePost(e) {
+        setIsLiked(!isLiked)
         async function like() {
             const resp = await fetch('/add-like/' + id + '/')
             const data = await resp.json()
@@ -201,8 +202,8 @@ function Post({ post }) {
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
-                is_saved={true in post.saved.map(user => { return user.username == userDetail.user.username })}
-                is_liked={true in post.likes.map(user => { return user.username == userDetail.user.username })}
+                is_saved={true in (post.saved.map(user => { return user == userDetail.user }))}
+                is_liked={true in (post.likes.map(user => { return user == userDetail.user }))}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )
