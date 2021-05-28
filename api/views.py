@@ -11,6 +11,7 @@ from core.models import Post,Profile,get_user
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions
 # # Create your views here.
 from rest_framework.decorators import api_view
@@ -32,8 +33,9 @@ class MiniUserProfileApi(viewsets.ModelViewSet):
 @method_decorator(csrf_protect,name='dispatch')
 class UploadPost(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
-    def post(self,request,format=None):
+    parser_classes = [MultiPartParser, FormParser]   
+    
+    def post(self,request,*args,**kwargs):
         data = self.request.data
         try:
             Post.objects.create(
