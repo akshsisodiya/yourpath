@@ -51,6 +51,7 @@ class UploadPost(APIView):
 @method_decorator(csrf_protect,name='dispatch')
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser]   
 
     def post(self,request,format= None):
         data = self.request.data
