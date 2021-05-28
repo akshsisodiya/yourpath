@@ -106,12 +106,10 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
     // }, [isLiked])
 
     function likePost(e) {
-        setIsLiked(!isLiked)
-        setLikesCount(likesCount + (isLiked ? 1 : -1))
         async function like() {
             const resp = await fetch('/add-like/' + id + '/')
             const data = await resp.json()
-            // isLiked != data.is_liked && setIsLiked(data.is_liked)
+            isLiked != data.is_liked && setIsLiked(data.is_liked)
             likesCount != data.count && setLikesCount(data.count)
         }
         like()
