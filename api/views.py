@@ -23,7 +23,7 @@ class UserProfileApi(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        return Profile.objects.filter(user=get_user(self.request.GET.get('username',self.user)))
+        return Profile.objects.filter(user=get_user(self.request.GET.get('username',self.request.user)))
 
 
 class MiniUserProfileApi(viewsets.ModelViewSet):
