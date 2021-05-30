@@ -23,10 +23,9 @@ class UserProfileApi(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        try:
-            return Profile.objects.filter(user=get_user(self.request.GET.get('username')))
-        except:
-            return Response({'error':'User not found'})
+        return Profile.objects.filter(user=get_user(self.request.GET.get('username')))
+
+
 class MiniUserProfileApi(viewsets.ModelViewSet):
     serializer_class = MiniUserSerializer
     def get_queryset(self):
