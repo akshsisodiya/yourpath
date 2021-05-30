@@ -52,10 +52,10 @@ function App() {
             <div className="app">
               <UserContext.Provider value={user ? user : tempUser}>
                 <Route exact path='/'><TabComponent tabName='home'><Feed /></TabComponent></Route>
-                <Route path={['/home']}>
+                <Route path='/home'>
                   <TabComponent tabName='home'><Feed /></TabComponent>
                 </Route>
-                <Route path='/profile'>
+                <Route exact path='/profile'>
                   <TabComponent tabName='profile' ><Profile /></TabComponent>
                 </Route>
                 <Route path='/notification'>
