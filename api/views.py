@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from django.core.serializers import serialize
-from django.shortcuts import HttpResponse,redirect,get_object_or_404
+from django.shortcuts import HttpResponse,redirect,get_object_or_404,Http404
 from django.http import JsonResponse
 import json
 from rest_framework.response import Response
@@ -23,7 +23,7 @@ class UserProfileApi(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        return Profile.objects.filter(user=get_user(self.request.GET.get('username')))
+        return Profile.objects.filter(user=get_user(self.request.GET.get('username',self.user)))
 
 
 class MiniUserProfileApi(viewsets.ModelViewSet):
