@@ -30,7 +30,7 @@ class MiniUserProfileApi(viewsets.ModelViewSet):
     serializer_class = MiniUserSerializer
     def get_queryset(self):
 
-        return Profile.objects.filter(user=User.objects.filter(username__startswith=self.request.GET.get('q')))
+        return Profile.objects.filter(user=get_user(self.request.GET.get('username',self.request.user)))
 
 @method_decorator(csrf_protect,name='dispatch')
 class UploadPost(APIView):
