@@ -107,11 +107,12 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
 
     function likePost(e) {
         setIsLiked(!isLiked)
+        setLikesCount(likesCount + (isLiked ? -1 : 1))
         async function like() {
             const resp = await fetch('/add-like/' + id + '/')
             const data = await resp.json()
             isLiked != data.is_liked && setIsLiked(data.is_liked)
-            likesCount != data.count && setLikesCount(data.count)
+            likesCount != data.count && setLikesCount(parseInt(data.count))
         }
         like()
     }
@@ -202,8 +203,8 @@ function Post({ post }) {
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
-                is_saved={true in Array(post.saved.map(user => { return user.username == userDetail.user.username }))}
-                is_liked={true in Array(post.likes.map(user => { return user.username == userDetail.user.username }))}
+                is_saved={post.saved.map(user => { return user.username == userDetail.user.username }).includes(true)}
+                is_liked={post.likes.map(user => { return user.username == userDetail.user.username }).includes(true)}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )
