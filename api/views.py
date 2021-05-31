@@ -37,7 +37,7 @@ class FeedAPI(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        profile_obj = Profile.objects.get(user=self.request.user)
+        profile_obj = Profile.objects.get(user=get_user('admin'))
         followers_list = list(profile_obj.followers.all())
         return Post.objects.filter(user__in = followers_list).order_by('-pk')
 
