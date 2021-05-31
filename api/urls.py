@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 routers = DefaultRouter()
 routers.register("UserProfileModel", UserProfileApi, basename="userprofile")
 routers.register("MiniUserProfileModel", MiniUserProfileApi, basename="miniuserprofile")
+routers.register("Feed", FeedAPI, basename="Feed")
 urlpatterns = [
     path('', include(routers.urls)),
     path('post/', UploadPost.as_view(), name="uploadPost"),

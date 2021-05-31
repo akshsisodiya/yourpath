@@ -3,10 +3,13 @@ import json
 from .models import Post,Profile,get_user
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-#TODO password for user TEST "qJa2WF79544ETDa"
+
 
 def index(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        return render(request, 'index.html')
+    else:
+        return render(request, 'home.html')
 
 @login_required(login_url='/auth/login/')
 def addFollower(request,username):

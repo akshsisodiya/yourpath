@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 # Create your models here.
 
 
@@ -58,7 +59,7 @@ def create_reply(sender, instance, created, **kwargs):
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE , related_name="post_user")
-    post_img = models.ImageField(upload_to='post_image')
+    post_img = models.ImageField(upload_to='post_image',blank=True)
     text = models.TextField()
     likes = models.ManyToManyField(User, related_name="post_like", blank=True)
     comments = models.ManyToManyField(Comment, related_name="post_comment", blank=True)
@@ -107,7 +108,7 @@ class Post(models.Model):
 class Profile(models.Model):
     # Normal Details
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
-    profile = models.ImageField(upload_to='user_profile_image', blank = True)
+    profile = models.ImageField(upload_to='user_profile_image', blank=False)
     cover = models.ImageField(upload_to='user_cover_image', blank = True)
     bio = models.CharField(max_length=150, blank = True)
     external_link = models.URLField(blank=True, default='')
