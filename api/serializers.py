@@ -36,3 +36,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = "__all__"
 
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    posts = PostSerializer(read_only=True, many= True)
+
+    class Meta:
+        model = Profile
+        fields = "__all__"

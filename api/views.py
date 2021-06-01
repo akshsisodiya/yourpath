@@ -4,10 +4,10 @@ from django.shortcuts import HttpResponse, redirect, get_object_or_404, Http404
 from django.http import JsonResponse
 import json
 from rest_framework.response import Response
-from .serializers import ProfileSerializer, MiniUserSerializer, PostSerializer
+from .serializers import ProfileSerializer, MiniUserSerializer, PostSerializer, CommentSerializer
 from django.contrib import auth
 from django.contrib.auth.models import User
-from core.models import Post, Profile, get_user
+from core.models import Post, Profile, get_user, Comment
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
@@ -36,10 +36,12 @@ class MiniUserProfileApi(viewsets.ModelViewSet):
 class FeedAPI(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
-    def get_queryset(self):
+    def get_queryset(self,*args,**kwargs):
+        upper = int(self.request.GET.get('page'))
+        lower = upper - 5
         profile_obj = Profile.objects.get(user=self.request.user)
-        followers_list = list(profile_obj.followers.all())
-        return Post.objects.filter(user__in = followers_list).order_by('-pk')
+        followings_list = list(profile_obj.followings.all())
+        return Post.objects.filter(user__in = followings_list).order_by('-pk')[lower:upper]
 
 
 
@@ -103,3 +105,10 @@ class CheckUserAuthentication(APIView):
             return Response({'isAuthenticated': True})
         else:
             return Response({'isAuthenticated': False})
+
+# @api_view(['POST'])
+# def addComment(request):
+#     serializer = CommentSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#     return Response(serializer.data)

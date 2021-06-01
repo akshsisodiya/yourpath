@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout"),
     path('get-csrf/', GetCsrfCookie.as_view(), name="csrf"),
     path('check-auth/', CheckUserAuthentication.as_view(), name="userauth"),
+    # path('comment/', addComment, name="addcomment"),
 
 ]
