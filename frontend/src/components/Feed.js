@@ -7,6 +7,7 @@ function PostContainer() {
     const [posts, setPosts] = useState([])
     const [isFetching, setIsFetching] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
+    const [postsOver, setPostsOver] = useState(false)
 
     useEffect(() => {
         window.addEventListener('scroll', loadOnScroll)
@@ -32,11 +33,12 @@ function PostContainer() {
     }
 
     async function fetchPosts() {
-        const res = await fetch('/api/Feed/?page=' + currentPage + '/')
+        const res = await fetch('/api/Feed/?page=' + currentPage)
         if (res.status == 200) {
             const data = await res.json()
             setPosts(posts.concat(data))
             setCurrentPage(currentPage + 1)
+            data.length == 0 && setPostsOver(true)
         } else {
             setPosts('error')
         }
@@ -59,7 +61,7 @@ function PostContainer() {
                 :
                 <Post post={posts} />
             }
-            <LoadingScreen height='100%' id='feed-end-content' />
+            {posts != 'error' & !postsOver && <LoadingScreen height='100%' id='feed-end-content' />}
         </div>
     )
 }
