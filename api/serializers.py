@@ -20,9 +20,11 @@ class MiniUserSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    likes = UserSerializer(read_only=True,many=True)
+
     class Meta:
         model= Comment
-        fields = ['user','text']
+        fields = ['user','text','likes',]
 
 
 class PostSerializer(serializers.ModelSerializer):

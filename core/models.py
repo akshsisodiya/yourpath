@@ -16,7 +16,7 @@ class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name = "user_reply")
     text = models.TextField()
     likes = models.ManyToManyField(User ,related_name = "comment_like")
-    replies = models.ManyToManyField('Reply', related_name='comment_replies')
+    replies = models.ManyToManyField('Reply', related_name='comment_replies', blank=True)
 
     class Manager():
         def __init__(self, comment):
