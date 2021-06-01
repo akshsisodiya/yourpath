@@ -8,4 +8,6 @@ urlpatterns = [
     path('add-like/<int:id>/', addlike),
     path('follow/<str:username>/', addFollower),
     path('save-post/<int:id>/', savePost),
+    path('add-comment/<int:id>/',addComment),
+    path('add-comment-like/<int:id>/',addLikeToComment),
 ]
