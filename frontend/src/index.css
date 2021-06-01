@@ -4,7 +4,10 @@
   --theme-grey: rgb(228, 225, 225);
   --theme-gray: rgb(228, 225, 225);
 }
-
+html,
+body {
+  scroll-behavior: smooth;
+}
 * {
   margin: 0;
   padding: 0;
@@ -236,6 +239,11 @@ img {
 
 .post-mid {
   margin-bottom: 10px;
+  width: 100%;
+}
+
+.post-mid-img {
+  width: 100%;
 }
 
 .post-mid-img > img {

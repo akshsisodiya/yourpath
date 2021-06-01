@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import CommentSection from './CommentSection'
-import { UserContext } from '../App'
+import { UserContext, MainContextStore } from '../App'
 import useWindowDimensions from './windowDimension'
 import LoadingScreen from './LoadingScreen'
+import SetProfilePic from '../components/SetProfilePic'
 import { Link } from 'react-router-dom'
 
-function PostTop({ user, time, me }) {
+function PostTop({ user, time, me, profile }) {
     const [postActionShow, setPostActionShow] = useState(false)
     const postActionRef = useRef()
     const postActionButton = useRef()
@@ -26,12 +27,12 @@ function PostTop({ user, time, me }) {
     return (
         <div className="post-top">
             <div className="post-top-left">
-                <Link to={'/user/' + user.user.username}>
-                    <img src={user.profile}
+                <Link to={'/profile/' + user.user.username}>
+                    <img src={profile}
                         alt="" />
                 </Link>
                 <div>
-                    <Link to={'/user/' + user.user.username}>
+                    <Link to={'/profile/' + user.user.username}>
                         <h4>{user.user.first_name + ' ' + user.user.last_name}</h4>
                     </Link>
                     <h6>{time}</h6>
@@ -48,10 +49,15 @@ function PostTop({ user, time, me }) {
 }
 
 function PostActionContainer({ user, forwardedRef, me }) {
+    const [isFollowed, setIsFollowed] = useState(me.followers.map(follower=>{return follower.username==user.username}).includes(true))
+    function follow() {
+        setIsFollowed(!isFollowed)        
+        fetch('/follow/' + user.username + '/')
+    }
     return (
         <div className="post-actions-container" id='post-actions-container' ref={forwardedRef}>
             <div className="post-actions">
-                <h6 className="post-action">{user.username in me.followers ? "Unfollow" : "Follow"}</h6>
+                <h6 className="post-action" onClick={follow} >{isFollowed ? "Unfollow" : "Follow"}</h6>
                 <h6 className="post-action">Share profile</h6>
                 <h6 className="post-action">Report</h6>
             </div>
@@ -73,7 +79,7 @@ function PostMid({ img, text }) {
     )
 }
 
-function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
+function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }) {
 
     const userDetail = useContext(UserContext)
     const { height, width } = useWindowDimensions();
@@ -88,6 +94,7 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
     // const [sharesListShow, setSharesListShow] = useState(false)
     const [showComments, setShowComments] = useState(false)
     const username = userDetail.user.username
+    const setAlertMessage = useContext(MainContextStore).setAlertMessage
 
     // to prevent like call on intial rendering
     // var initialRender = false
@@ -108,21 +115,20 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
     function likePost(e) {
         setIsLiked(!isLiked)
         setLikesCount(likesCount + (isLiked ? -1 : 1))
-        async function like() {
-            const resp = await fetch('/add-like/' + id + '/')
-            const data = await resp.json()
-            isLiked != data.is_liked && setIsLiked(data.is_liked)
-            likesCount != data.count && setLikesCount(parseInt(data.count))
-        }
-        like()
+        fetch(`/add-like/${id}/`)
     }
 
     function postSave(e) {
         setIsSaved(!isSaved)
+        fetch(`/save-post/${id}/`)
     }
 
     function commentClick(e) {
-        setShowComments(!showComments)
+        if(commentsCount > 0){
+            setShowComments(!showComments)
+        }else{
+            setAlertMessage('No comments yet this post')
+        }
     }
     function shareClick(e) {
         // postLike(e)
@@ -160,7 +166,7 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
                     <h6 onClick={iconClick}>Save</h6>
                 </div>
             </div>
-            { width > 780 && <CommentSection comments={comments} showComments={showComments} />}
+            { width > 780 && <CommentSection comments={comments} showComments={showComments} setShowComments={setShowComments} />}
         </div>)
 }
 
@@ -172,6 +178,11 @@ function Post({ post }) {
     //     const result = await res.json()
     //     setPost(result[0])
     // }, [])
+    const [profile, setProfile] = useState(null)
+    useEffect(() => {
+        post && SetProfilePic(setProfile, post.user.username)
+    }, [])
+
     function Empty(props) {
         let margin = props.m ? props.m : 'my-1'
         let padding = props.p ? props.p : 'py-1'
@@ -195,7 +206,7 @@ function Post({ post }) {
     }
     return (
         <div className="post" style={{ position: 'relative' }}>
-            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} /> : <Empty m='mb-5' p='py-4' />}
+            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} profile={profile} /> : <Empty m='mb-5' p='py-4' />}
             {post ? <PostMid img={post.post_img} text={post.text} /> : <Empty m='mb-3' p='py-2' rep='3' />}
 
             {post ? <PostBottom
@@ -205,6 +216,7 @@ function Post({ post }) {
                 shares={post.shares}
                 is_saved={post.saved.map(user => { return user.username == userDetail.user.username }).includes(true)}
                 is_liked={post.likes.map(user => { return user.username == userDetail.user.username }).includes(true)}
+                profile={profile}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )

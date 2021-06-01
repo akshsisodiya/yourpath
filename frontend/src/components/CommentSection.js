@@ -2,12 +2,13 @@ import React from 'react'
 import './CommentSection.css'
 import useWindowDimensions from './windowDimension'
 import { useState, useEffect, useRef, useContext } from 'react';
+import {UserContext, MainContextStore} from '../App'
 
 
 const CommentInputContext = React.createContext(null)
 
 function CommentBar({commentInput, setCommentInput}){  
-       
+    const userDetail = useContext(UserContext)
     const postCommentButton = useRef()
     const {commentInputRef, replingTo,setReplingTo} = useContext(CommentInputContext)
     
@@ -31,9 +32,9 @@ function CommentBar({commentInput, setCommentInput}){
         <div className="comment-bar-main">
             {(replingTo != null) && <div>Repling to <span className="ml-1">{replingTo.full_name}</span><span style={{marginLeft:'30px', fontWeight:500, cursor:'pointer'}} onClick={()=>{setReplingTo(null)}} >Cancel</span></div>}
             <div className="comment-bar">
-            <div className="comment-bar-left">
+            <div className="comment-bar-left"> 
             <a href="/">
-                    <img src="https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI"
+                    <img src={userDetail.profile}
                         alt="" />
                 </a>
             </div>
@@ -193,13 +194,13 @@ function Reply({reply}) {
 function CommentSection({comments, showComments}) {
     const [commentInput, setCommentInput] = useState("")    
     const { height, width } = useWindowDimensions();
-    const [replingTo, setReplingTo] = useState(null)
+    const [replingTo, setReplingTo] = useState(null)    
     const CommentInputRef = useRef()
     // console.log(height,width)
     return ( 
         <CommentInputContext.Provider value={{commentInputRef:CommentInputRef, replingTo:replingTo, setReplingTo:setReplingTo}}>
             <div className="comment-se">
-                {showComments && <CommentArea comments={comments.comments_list} />}
+                {showComments && <CommentArea comments={comments} />}
                 <CommentBar commentInput={commentInput} setCommentInput={setCommentInput} />
             </div>
         </CommentInputContext.Provider>      

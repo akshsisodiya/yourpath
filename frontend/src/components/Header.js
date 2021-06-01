@@ -55,6 +55,10 @@ function Header({ curMainTab, setCurMainTab }) {
     }, [curMainTab])
     function tabClick(e) {
         // setCurMainTab(e.target.id.slice(0, -4))
+        if(curMainTab == e.target.id.slice(0, -4)){
+            console.log(1)
+            window.scrollTo(0,0)
+        }
         history.push('/' + e.target.id.slice(0, -4), { from: window.location.pathname })
     }
 
@@ -72,10 +76,10 @@ function Header({ curMainTab, setCurMainTab }) {
 
     function tabIconClick(e) {
         e.target.parentNode.click()
-        e.stopPropagation()
+        e.stopPropagation()        
     }
     return (
-        <div className="header shadow-sm">
+        <div className="header shadow-sm" style={{position:'sticky', top:0, zIndex:'100', backgroundColor:'white'}}>
             <div className="header-left">
                 <div className="logo">
                     <h4>YourPath</h4>

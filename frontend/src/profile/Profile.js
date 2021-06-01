@@ -6,23 +6,32 @@ import Post from '../components/Post'
 import LoadingScreen from '../components/LoadingScreen'
 import EditProfile from './EditProfile'
 import userEvent from "@testing-library/user-event"
+import {DEFAULT_IMG} from '../components/SetProfilePic'
 
 function ProfileMain({ user, self }) {
-    const userDetail = useContext(UserContext)
+    const me = useContext(UserContext) 
+    const profile = user.profile ? user.profile : DEFAULT_IMG   
+    const [isFollowed, setIsFollowed] = useState(user.followers.map(u => { return u.username == me.user.username }).includes(true))
+    const [followersCount, setFollowersCount] = useState(user.followers.length)
+    function follow() {
+        setIsFollowed(!isFollowed)
+        setFollowersCount(followersCount + (isFollowed ? -1 : 1))
+        fetch('/follow/' + user.user.username + '/')
+    }
     return (
         <div className="col-lg-3" id="profile-main">
             <div className="row">
                 <div className="d-block d-lg-none col-12">
                     <div style={{ position: 'relative' }}>
-                        <img className='img-fluid rounded' src={userDetail.cover} alt="" />
+                        <img className='img-fluid rounded' src={user.cover} alt="" />
                         <div className="col-4 col-lg-12 p-4" style={{ position: 'absolute', left: '50%', top: '90%', transform: 'translate(-50%, -50%)' }}>
-                            <img className='img-fluid rounded-circle profile-main-profile' src={user.profile} alt="" />
+                            <img className='img-fluid rounded-circle profile-main-profile' src={profile} alt="" />
                         </div>
                     </div>
                     <div className='empty-space' style={{ content: '' }}></div>
                 </div>
                 <div className="d-none d-lg-block col-3 col-lg-12 p-3">
-                    <img className='img-fluid rounded-circle' src={user.profile} alt="" />
+                    <img className='img-fluid rounded-circle' src={profile} alt="" />
                 </div>
             </div>
             <div className="row text-center">
@@ -33,11 +42,11 @@ function ProfileMain({ user, self }) {
                 <div className="col-12 mb-2">
                     <div className="row justify-content-around">
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">{user.followers.length}</div>
+                            <div className="h6 mb-0">{user.followings.length}</div>
                             <span>Following</span>
                         </div>
                         <div className="col-3 p-2">
-                            <div className="h6 mb-0">{user.followings.length}</div>
+                            <div className="h6 mb-0">{followersCount}</div>
                             <span>Followers</span>
                         </div>
                         <div className="col-3 p-2">
@@ -46,26 +55,30 @@ function ProfileMain({ user, self }) {
                         </div>
                     </div>
                 </div>
-                {self ? 
-                <div className="col-12 mb-2">
-                    <button className="btn" id='edit-profile-btn'>Edit Profile</button>
-                </div> :
-                <div className="col-12 mb-2">
-                    <button className="btn" id='edit-profile-btn'>Follow</button>
-                </div>    
+                {self ?
+                    <div className="col-12 mb-2">
+                        <button className="btn" id='edit-profile-btn'>Edit Profile</button>
+                    </div> :
+                    <div className="col-12 mb-2">
+                        {isFollowed ?
+                            <button className="btn" id='edit-profile-btn' onClick={follow}>Unfollow</button>
+                            :
+                            <button className="btn" id='edit-profile-btn' onClick={follow}>Follow</button>
+                        }
+                    </div>
                 }
             </div>
         </div>
     )
 }
 
-function ProfileContent({data}) {
+function ProfileContent({ data, self }) {
     const userDetail = useContext(UserContext)
 
     function CoverPhoto() {
         return (
-            <div className="cover-img-container d-none d-lg-block" style={{height: '200px'}}>
-                <img style={{width:'100%', height: '100%', objectFit:'cover'}} src={data.cover} alt="" />
+            <div className="cover-img-container d-none d-lg-block" style={{ height: '200px' }}>
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={data.cover} alt="" />
             </div>
         )
     }
@@ -108,13 +121,13 @@ function ProfileContent({data}) {
                     >
                         <i className="fas fa-toolbox    "></i> <span>Projects</span>
                     </div>
-                    <div
+                    {self && <div
                         className="nav-link profile-nav-link mx-2"
                         onClick={profileNavClick}
                         id="saved-nav"
                     >
                         <i className="fas fa-bookmark"></i> <span>Saved</span>
-                    </div>
+                    </div>}
                 </nav>
             </div>
         );
@@ -123,11 +136,11 @@ function ProfileContent({data}) {
     function Content({ curTab, setCurTab, postData }) {
 
         function OverView() {
-            function TopPost() {
-                const topPost = postData.posts.sort(post=>{return post.likes.length})[0]
+            function TopPost({ totalPosts }) {
+                const topPost = postData.posts.sort(post => { return post.likes.length })[0]
                 return (
                     <div className="col-lg-12">
-                        <div className="h4 p-2 ml-3" style={{ color: 'var(--theme-blue)' }}>Top Post</div>   
+                        <div className="h4 p-2 ml-3" style={{ color: 'var(--theme-blue)' }}>Top Post</div>
                         <Post post={topPost} key={topPost.id} />
                     </div>
                 )
@@ -148,8 +161,9 @@ function ProfileContent({data}) {
             return (
                 <div className="profile-content" id="overview-content">
                     <div className="row">
+                        {/* {postData.projects && <TopProject />} */}
                         <TopProject />
-                        <TopPost />
+                        {postData.posts.length != 0 && <TopPost totalPosts={postData.posts} />}
                     </div>
                 </div>
             )
@@ -158,11 +172,15 @@ function ProfileContent({data}) {
         function PostsGrid() {
             return (
                 <div className="profile-content p-3" id="posts-content">
-                    <div className="row px-2">
-                        {postData.posts.reverse().map((post) => {
-                            return <Post post={post} key={post.id} />
-                        })}
-                    </div>
+                    {postData.posts.length != 0 ?
+                        <div className="col-lg-12 px-2">
+                            {postData.posts.reverse().map((post) => {
+                                return <Post post={post} key={post.id} />
+                            })}
+                        </div>
+                        :
+                        <h4>No Posts</h4>
+                    }
                 </div>
             )
         }
@@ -195,11 +213,15 @@ function ProfileContent({data}) {
         function SavedGrid() {
             return (
                 <div className="profile-content p-3" id="saved-content">
-                    <div className="row px-2">
-                        {postData.saved_posts.reverse().map((post) => {
-                            return <Post post={post} key={post.id} />
-                        })}
-                    </div>
+                    {postData.saved_posts.length != 0 ?
+                        <div className="px-2">
+                            {postData.saved_posts.reverse().map((post) => {
+                                return <Post post={post} key={post.id} />
+                            })}
+                        </div>
+                        :
+                        <h4>No saved posts</h4>
+                    }
                 </div>
             )
         }
@@ -210,11 +232,11 @@ function ProfileContent({data}) {
         }, [curTab])
 
         return (
-            <div className="row" id="profile-feed">
+            <div className="" id="profile-feed">
                 {curTab == 'overview' && <OverView />}
                 {curTab == 'posts' && <PostsGrid postData={data} />}
                 {curTab == 'projects' && <ProjectGrid />}
-                {curTab == 'saved' && <SavedGrid />}
+                {curTab == 'saved' && (self && <SavedGrid />)}
             </div>
         );
     }
@@ -230,22 +252,38 @@ function ProfileContent({data}) {
     );
 }
 
-function Profile() {
+function Profile({ username }) {
     const [userDetail, setUserDetail] = useState(null)
-    const self = true
+    const [userNotFound, setUserNotFound] = useState(false)
+    const me = useContext(UserContext)
+    const [self, setSelf] = useState(false)
     useEffect(async () => {
-        const response = await fetch('/api/UserProfileModel/')
-        const jsonResponse = await response.json()
-        setUserDetail(jsonResponse[0])        
+        if(username){
+            let queryUser = username
+            const response = await fetch(`/api/UserProfileModel/?username=${queryUser}`)
+            if (response.status == 200) {
+                const jsonResponse = await response.json()
+                setUserDetail(jsonResponse[0])
+                setSelf(jsonResponse[0].user.username == me.user.username ? true : false)
+            } else {
+                setUserNotFound(true)
+            }
+        }else{
+            setUserDetail(me)
+        }
     }, [])
 
     return (
         <div className="profile-page mt-3" id='profile'>
             <div className="container">
-                {userDetail ? <div className="row justify-content-around">
-                    <ProfileMain user={userDetail} self={self} />
-                    <ProfileContent data={userDetail} />
-                </div> : <LoadingScreen />}
+                {userNotFound ?
+                    <h1>Is naam ka koi user hi nahi hai, tum banoge?</h1>
+                    :
+                    (userDetail ? <div className="row justify-content-around">
+                        <ProfileMain user={userDetail} self={self} />
+                        <ProfileContent data={userDetail} self={self} />
+                    </div> : <LoadingScreen />)
+                }
             </div>
         </div>
         // <div className="profile-page mt-3" id='profile'>

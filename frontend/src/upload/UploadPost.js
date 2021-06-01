@@ -86,7 +86,7 @@ function UploadPost() {
               height="40"
               alt=""
             />
-            <h5 className="text-dark mb-0">{userDetail.full_name}</h5>
+            <h5 className="text-dark mb-0">{`${userDetail.user.first_name} ${userDetail.user.last_name}`}</h5>
           </div>
           <form action="" className="p-3" onSubmit={handlePostUpload}>
             <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken} />
