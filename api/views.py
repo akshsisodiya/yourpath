@@ -37,7 +37,7 @@ class FeedAPI(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self,*args,**kwargs):
-        upper = int(self.request.GET.get('page'))
+        upper = 5 * int(self.request.GET.get('page'))
         lower = upper - 5
         profile_obj = Profile.objects.get(user=self.request.user)
         followings_list = list(profile_obj.followings.all())
