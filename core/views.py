@@ -1,12 +1,17 @@
 from django.shortcuts import render, HttpResponse
 import json
-from .models import Post,Profile,get_user
+from .models import Post,Profile,get_user, Comment
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-#TODO password for user TEST "qJa2WF79544ETDa"
 
 def index(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        return render(request, 'index.html')
+    else:
+        return render(request, 'home.html')
 
+
+@login_required(login_url='/auth/login/')
 def addFollower(request,username):
     follower_obj = Profile.Manager(username=request.user)
     try:
@@ -35,7 +40,7 @@ def addFollower(request,username):
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
 
-
+@login_required(login_url='/auth/login/')
 def savePost(request,id):
     post = Post.Manager(post=id)
     is_saved = True if Post.objects.filter(id=id,saved__exact=request.user) else False
@@ -60,7 +65,7 @@ def savePost(request,id):
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
 
-
+@login_required(login_url='/auth/login/')
 def addlike(request,id):
     post = Post.Manager(post=id)
     post_obj = Post.objects.get(id=id)
