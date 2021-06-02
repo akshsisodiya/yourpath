@@ -4,7 +4,9 @@ import LoadingScreen from '../components/LoadingScreen'
 
 function PostContainer() {
     const [posts, setPosts] = useState([])
+
     const [isFetching, setIsFetching] = useState(false)
+
     const [currentPage, setCurrentPage] = useState(1)
     const [postsOver, setPostsOver] = useState(false)
 
@@ -21,36 +23,42 @@ function PostContainer() {
             const end = document.getElementById('feed-end-content');
             const rect = end.getBoundingClientRect();
             const isAtEnd = (
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
+                parseInt(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
+                parseInt(rect.right) <= (window.innerWidth || document.documentElement.clientWidth)
+            );            
             if (isAtEnd) {
                 if (!isFetching) {
                     setIsFetching(true)
-                    fetchPosts()
-                }
+                    fetchPosts()                    
+                };
             }
         }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     async function fetchPosts() {
-        const res = await fetch('/api/Feed/?page=' + currentPage)
-        if (res.status === 200) {
-            const data = await res.json()
-            setPosts(posts.concat(data))
-            setCurrentPage(currentPage + 1)
-            if(data.length === 0){
-                setPostsOver(true)
+        if(!isFetching){
+            console.log('called')
+            const res = await fetch('/api/Feed/?page=' + currentPage)
+            if (res.status === 200) {
+                const data = await res.json()
+                setPosts(posts.concat(data))                
+                setCurrentPage(currentPage + 1)
+                if(data.length === 0){
+                    setPostsOver(true)
+                }
+            } else {
+                setPosts('error')
             }
-        } else {
-            setPosts('error')
+            setIsFetching(false)                        
         }
-        setIsFetching(false)
     }
 
+    useEffect(()=>{
+        fetchPosts()
+        setIsFetching(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(fetchPosts, [])
+    }, [])
 
     return (
         <div className="post-container">
