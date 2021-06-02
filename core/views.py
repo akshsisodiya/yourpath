@@ -91,3 +91,37 @@ def addlike(request,id):
     }
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
+
+# @login_required(login_url='/auth/login/')
+def addComment(request, id):
+    comment=Comment.objects.create(
+                user=request.user,
+                post=Post.objects.get(pk=id),
+                text=request.GET.get('text')
+            )
+    comment.save()
+    resp = {
+        'id':comment.id,
+        'comment':comment.text
+    }
+    r=json.dumps(resp)
+    return HttpResponse(r,"application/json")
+
+def addLikeToComment(request,id):
+    comment = Comment.Manager(comment=id)
+    is_comment_liked = True if Comment.objects.filter(id=id,likes__exact=request.user) else False
+
+    if is_comment_liked:
+        comment.dislike(username=request.user.username)
+        is_comment_liked =False
+    else:
+        comment.add_like(username=request.user.username)
+        is_comment_liked = True
+
+    resp = {
+        'is_liked': is_comment_liked,
+        'count': Comment.objects.get(pk=id).likes.count()
+    }
+    r = json.dumps(resp)
+    return HttpResponse(r, "application/json")
+

@@ -16,20 +16,26 @@ class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name = "user_reply")
     text = models.TextField()
     likes = models.ManyToManyField(User ,related_name = "comment_like")
-    replies = models.ManyToManyField('Reply', related_name='comment_replies')
+    replies = models.ManyToManyField('Reply', related_name='comment_replies', blank=True)
 
     class Manager():
         def __init__(self, comment):
-            self.comment = Comment.objects.model(pk=comment)
+            self.comment = Comment.objects.get(pk=comment)
 
         def add_like(self, username):
             user = get_user(username)
             self.comment.likes.add(user)
             self.comment.save()
 
+        def dislike(self,username):
+            user= get_user(username)
+            self.comment.likes.remove(user)
+            self.comment.save()
+
         def add_reply(self, reply):
             self.comment.replies.add(reply)
             self.comment.save()
+
 @receiver(post_save, sender=Comment)
 def create_comment(sender, instance, created, **kwargs):
     if created:

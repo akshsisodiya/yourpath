@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, redirect, get_object_or_404, Http404
 from django.http import JsonResponse
 import json
 from rest_framework.response import Response
-from .serializers import ProfileSerializer, MiniUserSerializer, PostSerializer, CommentSerializer
+from .serializers import ProfileSerializer, MiniUserSerializer, PostSerializer
 from django.contrib import auth
 from django.contrib.auth.models import User
 from core.models import Post, Profile, get_user, Comment
@@ -16,6 +16,9 @@ from rest_framework import permissions
 # # Create your views here.
 from rest_framework.decorators import api_view
 
+
+def DefaultUser():
+    return get_user('aman')
 
 # # TODO PWD_FOR_AMAN = VCYNK25PqPK6FvT
 # # TODO PWD_FOR_YASH = QeiYbGwPjX945nX
@@ -39,7 +42,7 @@ class FeedAPI(viewsets.ModelViewSet):
     def get_queryset(self,*args,**kwargs):
         upper = 5 * int(self.request.GET.get('page'))
         lower = upper - 5
-        profile_obj = Profile.objects.get(user=self.request.user)
+        profile_obj = Profile.objects.get(user=DefaultUser())
         followings_list = list(profile_obj.followings.all())
         return Post.objects.filter(user__in = followings_list).order_by('-pk')[lower:upper]
 
@@ -105,10 +108,3 @@ class CheckUserAuthentication(APIView):
             return Response({'isAuthenticated': True})
         else:
             return Response({'isAuthenticated': False})
-
-# @api_view(['POST'])
-# def addComment(request):
-#     serializer = CommentSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#     return Response(serializer.data)
