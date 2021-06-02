@@ -5,7 +5,18 @@
 {% block content%}
 
 <div class="container" style="display: flex; height: 100vh; flex-direction: column; justify-content: center">
+    {% if messages %}
+        {% for i in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ i }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        {% endfor %}
+    {% endif %}
     <div class="row justify-content-center p3">
+
         <div class="col-sm-8 col-lg-4 text-center form-container">
             <div class="text-dark font-weight-bold h2 mb-4">YourPath</div>
             <div id="login-form" class="p-3 bg-light text-dark rounded shadow">
@@ -24,7 +35,7 @@
                     <div class="col-lg-12"><a id="turn-login" href="/auth/signup/">Don't have an account?
                             Register.</a>
                     </div>
-                    <div class="col-lg-12"><a href="/auth/reset-password/">Forgot Password?</a></div>
+                    <div class="col-lg-12"><a href="/auth/password-reset/">Forgot Password?</a></div>
                 </div>
             </div>
         </div>

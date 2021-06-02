@@ -8,7 +8,7 @@ def index(request):
     if request.user.is_authenticated:
         return render(request, 'index.html')
     else:
-        return render(request, 'home.html')
+        return render(request, 'core/home.html')
 
 
 @login_required(login_url='/auth/login/')

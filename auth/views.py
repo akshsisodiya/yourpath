@@ -27,13 +27,11 @@ def Signup(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Login(request):
-    form = LoginForm()
 
     if request.user.is_authenticated:
         return redirect('/')
 
     if request.method == "POST":
-        form= LoginForm(request.POST)
         user = authenticate(request,username=request.POST.get('username'),password=request.POST.get('password'))
         if user is not None:
             login(request,user)
@@ -41,7 +39,7 @@ def Login(request):
         else:
             messages.error(request,'Invalid Credentials.')
             return redirect('/auth/login/')
-    return render(request,'auth/login.html',{'form':form})
+    return render(request,'auth/login.html')
 
 
 @require_http_methods(["POST","GET"])
