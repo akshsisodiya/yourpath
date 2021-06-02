@@ -1,7 +1,9 @@
+/* eslint-disable eqeqeq */
 import React from 'react'
 import './CommentSection.css'
 import useWindowDimensions from './windowDimension'
 import { useState, useEffect, useRef, useContext } from 'react';
+// eslint-disable-next-line no-unused-vars
 import {UserContext, MainContextStore} from '../App'
 
 
@@ -69,16 +71,19 @@ function Comment({comment}) {
     const [isLiked, setIsLiked] = useState(comment.is_liked)
     const [showReply, setShowReply] = useState(false)
 
+    // eslint-disable-next-line no-unused-vars
     const {commentInputRef, replingTo,setReplingTo} = useContext(CommentInputContext) 
 
     var initialRender = false
     useEffect(()=>{
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         initialRender = true
     },[])
 
     // Like button 
     useEffect(()=>{
         if(initialRender){
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             initialRender = false
         }
         else{
@@ -144,12 +149,14 @@ function Reply({reply}) {
     const [isLiked, setIsLiked] = useState(reply.is_liked)
     var initialRender = false
     useEffect(()=>{
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         initialRender = true
     },[])
 
     // Like button 
     useEffect(()=>{
         if(initialRender){
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             initialRender = false
         }
         else{
@@ -193,6 +200,7 @@ function Reply({reply}) {
 
 function CommentSection({comments, showComments}) {
     const [commentInput, setCommentInput] = useState("")    
+    // eslint-disable-next-line no-unused-vars
     const { height, width } = useWindowDimensions();
     const [replingTo, setReplingTo] = useState(null)    
     const CommentInputRef = useRef()

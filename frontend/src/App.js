@@ -7,14 +7,13 @@ import Notification from './notification/Notfications'
 import Chat from './chat/Chat'
 import UploadPost from './upload/UploadPost'
 import LoadingScreen from './components/LoadingScreen'
-import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch } from 'react-router-dom'
-import AlertMessage from './components/AlertMessage';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+// import AlertMessage,{ AlertMessageSend } from './components/AlertMessage';
 import PageNotFound from './components/PageNotFound'
-
 
 export const UserContext = React.createContext({})
 export const MainContextStore = React.createContext({})
-
+ 
 
 // cloudinary ID 'leyita8591@dvdoto.com'
 // cloudinary pwd 'Yourpath1234#'
@@ -22,11 +21,12 @@ export const MainContextStore = React.createContext({})
 
 function App() {
   const [user, setUser] = useState(null)
-  const [alertMessage, setAlertMessage] = useState(false)
   const MainContextData = {
-    setAlertMessage: setAlertMessage
+    // setAlertMessage: AlertMessageSend,
   }
-  // TODO remove default user
+  
+
+  //TODO remove default user
   useEffect(() => {
     async function fetchData() {
       const res = await fetch(`/api/UserProfileModel/?username=admin`)
@@ -40,7 +40,7 @@ function App() {
   const [showHeader, setShowHeader] = useState(true)
 
   function TabComponent({ children, tabName }) {
-    if (curMainTab != tabName) {
+    if (curMainTab !== tabName) {
       setCurMainTab(tabName)  
     }
     return children
@@ -78,7 +78,7 @@ function App() {
                   </Route>
                   {/* Route for different user profiles awa self user */}
                   <Route exact path='/profile/:username'>
-                    {props => { return props.match.params.username == user.user.username ? <TabComponent tabName='profile' ><Profile /></TabComponent> : <Profile username={props.match.params.username} /> }}
+                    {props => { return props.match.params.username === user.user.username ? <TabComponent tabName='profile' ><Profile /></TabComponent> : <Profile username={props.match.params.username} /> }}
                   </Route>
                   {/* Route for Page not found 404 error */}
                   <Route><PageNotFound notShow={[setShowHeader]} /></Route>
@@ -90,7 +90,7 @@ function App() {
         :
         <LoadingScreen />
       }
-      {alertMessage && <AlertMessage message={alertMessage} setMessage={setAlertMessage} />}
+        {/* <AlertMessage /> */}
     </div>
   );
 }

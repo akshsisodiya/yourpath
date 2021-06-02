@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import CommentSection from './CommentSection'
 import { UserContext, MainContextStore } from '../App'
 import useWindowDimensions from './windowDimension'
-import LoadingScreen from './LoadingScreen'
 import SetProfilePic from '../components/SetProfilePic'
 import { Link } from 'react-router-dom'
 
@@ -49,7 +50,7 @@ function PostTop({ user, time, me, profile }) {
 }
 
 function PostActionContainer({ user, forwardedRef, me }) {
-    const [isFollowed, setIsFollowed] = useState(me.followers.map(follower=>{return follower.username==user.username}).includes(true))
+    const [isFollowed, setIsFollowed] = useState(me.followers.map(follower=>{return follower.username===user.username}).includes(true))
     function follow() {
         setIsFollowed(!isFollowed)        
         fetch('/follow/' + user.username + '/')
@@ -82,18 +83,19 @@ function PostMid({ img, text }) {
 function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }) {
 
     const userDetail = useContext(UserContext)
+    // eslint-disable-next-line no-unused-vars
     const { height, width } = useWindowDimensions();
 
     const [likesCount, setLikesCount] = useState(likes.length)
+    // eslint-disable-next-line no-unused-vars
     const [commentsCount, setCommentsCount] = useState(comments.length)
-    const [sharesCount, setSharesCount] = useState(shares.length)
+    const [sharesCount] = useState(shares.length)
     // const [likesList, setLikesList] = useState(likes.likes_list)
     const [isLiked, setIsLiked] = useState(is_liked)
     const [isSaved, setIsSaved] = useState(is_saved)
     // const [likesListShow, setLikesListShow] = useState(false)
     // const [sharesListShow, setSharesListShow] = useState(false)
     const [showComments, setShowComments] = useState(false)
-    const username = userDetail.user.username
     const setAlertMessage = useContext(MainContextStore).setAlertMessage
 
     // to prevent like call on intial rendering
@@ -172,15 +174,11 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
 
 function Post({ post }) {
     const userDetail = useContext(UserContext)
-    // const [post, setPost] = useState(null)
-    // useEffect(async () => {
-    //     const res = await fetch('/api/get-post/' + post_id)
-    //     const result = await res.json()
-    //     setPost(result[0])
-    // }, [])
+
     const [profile, setProfile] = useState(null)
+    
     useEffect(() => {
-        post && SetProfilePic(setProfile, post.user.username)
+        post && SetProfilePic(profile, setProfile, post.user.username)
     }, [])
 
     function Empty(props) {
@@ -214,8 +212,8 @@ function Post({ post }) {
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
-                is_saved={post.saved.map(user => { return user.username == userDetail.user.username }).includes(true)}
-                is_liked={post.likes.map(user => { return user.username == userDetail.user.username }).includes(true)}
+                is_saved={post.saved.map(user => { return user.username === userDetail.user.username }).includes(true)}
+                is_liked={post.likes.map(user => { return user.username === userDetail.user.username }).includes(true)}
                 profile={profile}
             /> : <Empty m='mt-5' p='py-4' />}
         </div>

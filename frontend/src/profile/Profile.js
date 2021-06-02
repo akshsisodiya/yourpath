@@ -269,6 +269,7 @@ function Profile({ username }) {
                 setUserNotFound(true)
             }
         }else{
+            setSelf(true)
             setUserDetail(me)
         }
     }, [])

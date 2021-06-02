@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
-import postData from './postData.json'
 import LoadingScreen from '../components/LoadingScreen'
 
 function PostContainer() {
@@ -18,40 +17,46 @@ function PostContainer() {
 
 
     function loadOnScroll(e) {
-        var end = document.getElementById('feed-end-content')
-        var rect = end.getBoundingClientRect()
-        var isAtEnd = (
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        )
-        if (isAtEnd) {
-            if (!isFetching) {
-                setIsFetching(true)
-                fetchPosts()
+        if (!postsOver) {
+            const end = document.getElementById('feed-end-content');
+            const rect = end.getBoundingClientRect();
+            const isAtEnd = (
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+            if (isAtEnd) {
+                if (!isFetching) {
+                    setIsFetching(true)
+                    fetchPosts()
+                }
             }
         }
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     async function fetchPosts() {
         const res = await fetch('/api/Feed/?page=' + currentPage)
-        if (res.status == 200) {
+        if (res.status === 200) {
             const data = await res.json()
             setPosts(posts.concat(data))
             setCurrentPage(currentPage + 1)
-            data.length == 0 && setPostsOver(true)
+            if(data.length === 0){
+                setPostsOver(true)
+            }
         } else {
             setPosts('error')
         }
         setIsFetching(false)
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(fetchPosts, [])
 
     return (
         <div className="post-container">
             {posts ?
                 (
-                    posts != 'error' ?
+                    posts !== 'error' ?
                         posts.map((post) => {
                             return <Post post={post} key={post.id} />
                         })
@@ -61,7 +66,7 @@ function PostContainer() {
                 :
                 <Post post={posts} />
             }
-            {posts != 'error' & !postsOver && <LoadingScreen height='100%' id='feed-end-content' />}
+            {(posts !== 'error' && !postsOver) && <LoadingScreen height='100%' id='feed-end-content' />}
         </div>
     )
 }
@@ -71,7 +76,7 @@ function MiniProfile() {
         <div className="mini-profile full-screen">
             <div className="mini-profile-card">
                 <div className="mini-profile-top">
-                    <div className="mini-profile-cover"></div>
+                    <div className="mini-profile-cover"/>
                     <img src="https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI"
                         alt="" className="mini-profile-main" onClick={() => { window.location.pathname = '/test/index.html' }} />
                 </div>
@@ -84,13 +89,13 @@ function MiniProfile() {
                         <span>Projects</span>
                         <span>5</span>
                     </div>
-                    <div className="mini-profile-connctions">
+                    <div className="mini-profile-connections">
                         <span>Connections</span>
                         <span>156</span>
                     </div>
                 </div>
                 <div className="mini-profile-saved">
-                    <i className="far fa-bookmark"></i>
+                    <i className="far fa-bookmark"/>
                     <span>Saved</span>
                 </div>
             </div>

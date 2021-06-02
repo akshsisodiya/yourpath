@@ -40,7 +40,7 @@ function UploadPost() {
       }
     }
     console.log(postImg.rowImage);
-    if (postCaption != null && postCaption != "" && postImg != null) {
+    if (postCaption !== null && postCaption !== null && postImg !== null) {
       // const data = {
       //     postimg: postImg.rowImage,
       //     caption: postCaption,
