@@ -36,13 +36,14 @@ function PostTop({ user, me, time, profile, posts, setPosts}) {
             axios.defaults.xsrfCookieName = "csrftoken";
             axios.defaults.xsrfHeaderName = "X-CSRFToken";
             const res = await axios.delete(`/delete-post/${id}/`,{csrfmiddlewaretoken:csrftoken})
-            return await res.data
+            const data = await res.data
+            return data
         }
         if(window.confirm("ARE YOU SURE?")){
             try{
                 const data = del(user.id)
-                if(data.msg==='Error'){
-                    throw data.msg
+                if(data.message==='Error'){
+                    throw data.message
                 }else{
                     let id = user.id
                     let newPosts = posts.filter(post=>post.id != id)                    
