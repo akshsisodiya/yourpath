@@ -5,13 +5,18 @@ from .models import Post,Profile,get_user, Comment
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def index(request):
+def index(request,username):
     if request.user.is_authenticated:
         return render(request, 'index.html')
     else:
         return render(request, 'core/home.html')
 
-
+def index(request):
+    if request.user.is_authenticated:
+        return render(request, 'index.html')
+    else:
+        return render(request, 'core/home.html')
+    
 @login_required(login_url='/auth/login/')
 def addFollower(request,username):
     follower_obj = Profile.Manager(username=request.user)
@@ -126,7 +131,8 @@ def addLikeToComment(request,id):
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
 
-@require_http_methods(["POST"])
+#@login_required(login_url='/auth/login/')
+@require_http_methods(["DELETE"])
 def deletePost(request,id):
     msg = ''
     try:
