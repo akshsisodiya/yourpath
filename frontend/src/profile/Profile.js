@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from "react"
 import "./profile.css"
 import { UserContext } from '../App'
-import postData from '../components/postData.json'
 import Post from '../components/Post'
 import LoadingScreen from '../components/LoadingScreen'
 import EditProfile from './EditProfile'
-import userEvent from "@testing-library/user-event"
 import {DEFAULT_IMG} from '../components/SetProfilePic'
 
 function ProfileMain({ user, self }) {
@@ -135,13 +133,21 @@ function ProfileContent({ data, self }) {
 
     function Content({ curTab, setCurTab, postData }) {
 
+        const [posts, setPosts] = useState(postData.posts)
+        const [savedPosts, setSavedPosts] = useState(postData.posts)
+        const [allPosts, setAllPosts] = useState({posts:posts, savedPosts:savedPosts})
+
+        // useEffect(() => {
+        //     setAllPosts({posts:posts, savedPosts:savedPosts})
+        // }, [posts,savedPosts])
+
         function OverView() {
-            function TopPost({ totalPosts }) {
-                const topPost = postData.posts.sort(post => { return post.likes.length })[0]
+            function TopPost() {
+                const topPost = posts.sort(post => { return post.likes.length })[0]
                 return (
                     <div className="col-lg-12">
                         <div className="h4 p-2 ml-3" style={{ color: 'var(--theme-blue)' }}>Top Post</div>
-                        <Post post={topPost} key={topPost.id} />
+                        <Post post={topPost} key={topPost.id} posts={allPosts} setPosts={setAllPosts} />
                     </div>
                 )
             }
@@ -172,10 +178,10 @@ function ProfileContent({ data, self }) {
         function PostsGrid() {
             return (
                 <div className="profile-content p-3" id="posts-content">
-                    {postData.posts.length != 0 ?
+                    {posts.length != 0 ?
                         <div className="col-lg-12 px-2">
-                            {postData.posts.reverse().map((post) => {
-                                return <Post post={post} key={post.id} />
+                            {posts.reverse().map((post) => {
+                                return <Post post={post} key={post.id} posts={posts} setPosts={setPosts} />
                             })}
                         </div>
                         :
@@ -213,10 +219,10 @@ function ProfileContent({ data, self }) {
         function SavedGrid() {
             return (
                 <div className="profile-content p-3" id="saved-content">
-                    {postData.saved_posts.length != 0 ?
+                    {savedPosts.length != 0 ?
                         <div className="px-2">
-                            {postData.saved_posts.reverse().map((post) => {
-                                return <Post post={post} key={post.id} />
+                            {savedPosts.reverse().map((post) => {
+                                return <Post post={ post} key={post.id} posts={savedPosts} setPosts={setSavedPosts} />
                             })}
                         </div>
                         :
