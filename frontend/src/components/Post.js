@@ -31,6 +31,7 @@ function PostTop({ user, me, time, profile, posts, setPosts}) {
         }
     }
     function postDelete(){
+        console.log(csrftoken);
         async function del(id){
             axios.defaults.xsrfCookieName = "csrftoken";
             axios.defaults.xsrfHeaderName = "X-CSRFToken";
