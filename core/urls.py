@@ -5,7 +5,7 @@ urlpatterns = [
     path('',index),
     path('profile',index),
     path('upload',index),
-    path('profile/<str:username>/',index),
+    path('profile/<str:username>/',index2),
     path('chat/',index),
     path('add-like/<int:id>/', addlike),
     path('follow/<str:username>/', addFollower),
