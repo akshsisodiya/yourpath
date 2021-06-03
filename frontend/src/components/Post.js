@@ -32,7 +32,9 @@ function PostTop({ user, me, time, profile, posts, setPosts}) {
     }
     function postDelete(){
         async function del(id){
-            const res = await axios.post(`/delete-post/${id}/`,{csrfmiddleware:csrftoken})
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            const res = await axios.delete(`/delete-post/${id}/`,{csrfmiddlewaretoken:csrftoken})
             return await res.data
         }
         if(window.confirm("ARE YOU SURE?")){
@@ -44,7 +46,7 @@ function PostTop({ user, me, time, profile, posts, setPosts}) {
                     let id = user.id
                     let newPosts = posts.filter(post=>post.id != id)                    
                     document.getElementById(`post_${id}`).style.opacity = 0
-                    setTimeout(()=>{setPosts(newPosts)},500)        
+                    setTimeout(()=>{window.location.reload()},500)        
                 }
             }catch(err){
                 alert('Post could\'nt be deleted')
