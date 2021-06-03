@@ -3,14 +3,18 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import CommentSection from './CommentSection'
 import { UserContext, MainContextStore } from '../App'
+import {FeedContext} from './Feed'
 import useWindowDimensions from './windowDimension'
 import SetProfilePic from '../components/SetProfilePic'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-function PostTop({ user, time, me, profile }) {
+function PostTop({ user, time, me, profile, setPost }) {
     const [postActionShow, setPostActionShow] = useState(false)
     const postActionRef = useRef()
     const postActionButton = useRef()
+    const {posts, setPosts} = useContext(FeedContext)
+
     useEffect(function () {
         if (postActionShow) {
             document.addEventListener('mousedown', handleOutsideClick)
@@ -23,6 +27,31 @@ function PostTop({ user, time, me, profile }) {
     function handleOutsideClick(e) {
         if (!postActionRef.current.contains(e.target) && !postActionButton.current.contains(e.target)) {
             setPostActionShow(false)
+        }
+    }
+    function postDelete(){
+        async function del(id){
+            const res = await axios.post(`/delete-post/${id}/`)
+            return await res.data
+        }
+        if(window.confirm("ARE YOU SURE?")){
+            try{
+                const data = del(user.id)
+                if(data.msg==='Error'){
+                    throw data.msg
+                }else{
+
+                    let id = user.id
+                    let newPosts = posts
+                    let thisPost = newPosts.find(post=>post.id === id)
+                    let thisPost_index = newPosts.indexOf(thisPost)
+                    document.getElementById(`post_${id}`).style.opacity = 0
+                    newPosts.splice(thisPost_index, 1)
+                    setTimeout(()=>{setPosts(newPosts)},500)                    
+                }
+            }catch(err){
+                alert('Post could\'nt be deleted')
+            }
         }
     }
     return (
@@ -43,22 +72,26 @@ function PostTop({ user, time, me, profile }) {
                 <div className="post-actions-button" ref={postActionButton} onClick={postActionClick}>
                     <i className="fas fa-ellipsis-h" ></i>
                 </div>
-                {postActionShow && <PostActionContainer user={user.user} me={me} forwardedRef={postActionRef} />}
+                {postActionShow && <PostActionContainer id={user.id} user={user.user} me={me} forwardedRef={postActionRef} postDelete={postDelete} />}
             </div>
         </div>
     )
 }
 
-function PostActionContainer({ user, forwardedRef, me }) {
+function PostActionContainer({ id, user, forwardedRef, me, postDelete }) {
     const [isFollowed, setIsFollowed] = useState(me.followers.map(follower=>{return follower.username===user.username}).includes(true))
     function follow() {
         setIsFollowed(!isFollowed)        
         fetch('/follow/' + user.username + '/')
-    }
+    }    
+
     return (
         <div className="post-actions-container" id='post-actions-container' ref={forwardedRef}>
             <div className="post-actions">
-                <h6 className="post-action" onClick={follow} >{isFollowed ? "Unfollow" : "Follow"}</h6>
+                {user.username == me.username ? 
+                <h6 className="post-action" onClick={postDelete}>Delete</h6>
+                :
+                <h6 className="post-action" onClick={follow} >{isFollowed ? "Unfollow" : "Follow"}</h6>}
                 <h6 className="post-action">Share profile</h6>
                 <h6 className="post-action">Report</h6>
             </div>
@@ -80,7 +113,7 @@ function PostMid({ img, text }) {
     )
 }
 
-function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }) {
+function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
 
     const userDetail = useContext(UserContext)
     // eslint-disable-next-line no-unused-vars
@@ -97,8 +130,11 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
     // const [likesListShow, setLikesListShow] = useState(false)
     // const [sharesListShow, setSharesListShow] = useState(false)
     const [showComments, setShowComments] = useState(false)
-    const setAlertMessage = useContext(MainContextStore).setAlertMessage
+    const setAlertMessage = useContext(MainContextStore).setAlertMessage    
 
+    useEffect(() => {
+        setCommentsCount(commentsState.length)        
+    }, [commentsState])
 
     function likePost(e) {
         setIsLiked(!isLiked)
@@ -116,7 +152,7 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
             setShowComments(!showComments)
         }
     }
-    
+
     function shareClick(e) {
         // postLike(e)
     }
@@ -163,8 +199,9 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
         </div>)
 }
 
-function Post({ post }) {
+function Post({ post:postParam }) {
     const userDetail = useContext(UserContext)
+    const [post, setPost] = useState(postParam)
 
     const [profile, setProfile] = useState(null)
     
@@ -194,8 +231,8 @@ function Post({ post }) {
         )
     }
     return (
-        <div className="post" style={{ position: 'relative' }}>
-            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} profile={profile} /> : <Empty m='mb-5' p='py-4' />}
+        <div className="post" id={`post_${post.id}`} style={{ position: 'relative' }}>
+            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} profile={profile} setPost={setPost} /> : <Empty m='mb-5' p='py-4' />}
             {post ? <PostMid img={post.post_img} text={post.text} /> : <Empty m='mb-3' p='py-2' rep='3' />}
 
             {post ? <PostBottom
@@ -204,8 +241,7 @@ function Post({ post }) {
                 comments={post.comments}
                 shares={post.shares}
                 is_saved={post.saved.map(user => { return user.username === userDetail.user.username }).includes(true)}
-                is_liked={post.likes.map(user => { return user.username === userDetail.user.username }).includes(true)}
-                profile={profile}
+                is_liked={post.likes.map(user => { return user.username === userDetail.user.username }).includes(true)}                
             /> : <Empty m='mt-5' p='py-4' />}
         </div>
     )

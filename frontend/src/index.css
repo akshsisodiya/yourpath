@@ -151,6 +151,7 @@ img {
   margin: 10px;
   border-radius: 10px;
   border: 1px solid var(--theme-gray);
+  transition: opacity 0.5s ease-in-out;
 }
 
 .post-top {

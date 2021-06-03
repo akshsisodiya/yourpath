@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Post from './Post'
 import LoadingScreen from '../components/LoadingScreen'
+
+export const FeedContext = React.createContext(null)
 
 function PostContainer() {
     const [posts, setPosts] = useState([])
@@ -25,11 +27,11 @@ function PostContainer() {
             const isAtEnd = (
                 parseInt(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
                 parseInt(rect.right) <= (window.innerWidth || document.documentElement.clientWidth)
-            );            
+            );
             if (isAtEnd) {
                 if (!isFetching) {
                     setIsFetching(true)
-                    fetchPosts()                    
+                    fetchPosts()
                 };
             }
         }
@@ -37,26 +39,26 @@ function PostContainer() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     async function fetchPosts() {
-        if(!isFetching){
+        if (!isFetching) {
             const res = await fetch('/api/Feed/?page=' + currentPage)
             if (res.status === 200) {
                 const data = await res.json()
-                setPosts(posts.concat(data))                
+                setPosts(posts.concat(data))
                 setCurrentPage(currentPage + 1)
-                if(data.length === 0){
+                if (data.length === 0) {
                     setPostsOver(true)
                 }
             } else {
                 setPosts('error')
             }
-            setIsFetching(false)                        
+            setIsFetching(false)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchPosts()
         setIsFetching(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -65,7 +67,7 @@ function PostContainer() {
                 (
                     posts !== 'error' ?
                         posts.map((post) => {
-                            return <Post post={post} key={post.id} />
+                            return <FeedContext.Provider value={{ posts: posts, setPosts: setPosts }} ><Post post={post} key={post.id} /></FeedContext.Provider>
                         })
                         :
                         <h5>Something went wrong</h5>
@@ -83,7 +85,7 @@ function MiniProfile() {
         <div className="mini-profile full-screen">
             <div className="mini-profile-card">
                 <div className="mini-profile-top">
-                    <div className="mini-profile-cover"/>
+                    <div className="mini-profile-cover" />
                     <img src="https://media-exp1.licdn.com/dms/image/C5603AQFJz8FiY3lWXA/profile-displayphoto-shrink_800_800/0/1609861395191?e=1624492800&v=beta&t=I8KhD_rYunJydi6GxUk4P2PvKAQL5CikJh4_rQGI6cI"
                         alt="" className="mini-profile-main" onClick={() => { window.location.pathname = '/test/index.html' }} />
                 </div>
@@ -102,7 +104,7 @@ function MiniProfile() {
                     </div>
                 </div>
                 <div className="mini-profile-saved">
-                    <i className="far fa-bookmark"/>
+                    <i className="far fa-bookmark" />
                     <span>Saved</span>
                 </div>
             </div>
