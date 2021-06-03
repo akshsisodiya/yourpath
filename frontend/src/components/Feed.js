@@ -38,7 +38,6 @@ function PostContainer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     async function fetchPosts() {
         if(!isFetching){
-            console.log('called')
             const res = await fetch('/api/Feed/?page=' + currentPage)
             if (res.status === 200) {
                 const data = await res.json()

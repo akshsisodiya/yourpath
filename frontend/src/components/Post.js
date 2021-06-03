@@ -89,6 +89,7 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
     const [likesCount, setLikesCount] = useState(likes.length)
     // eslint-disable-next-line no-unused-vars
     const [commentsCount, setCommentsCount] = useState(comments.length)
+    const [commentsState, setComments] = useState(comments)
     const [sharesCount] = useState(shares.length)
     // const [likesList, setLikesList] = useState(likes.likes_list)
     const [isLiked, setIsLiked] = useState(is_liked)
@@ -98,21 +99,6 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
     const [showComments, setShowComments] = useState(false)
     const setAlertMessage = useContext(MainContextStore).setAlertMessage
 
-    // to prevent like call on intial rendering
-    // var initialRender = false
-    // useEffect(() => {
-    //     initialRender = true
-    // }, [])
-
-    // // Like button 
-    // useEffect(() => {
-    //     if (initialRender) {
-    //         initialRender = false
-    //     }
-    //     else {
-
-    //     }
-    // }, [isLiked])
 
     function likePost(e) {
         setIsLiked(!isLiked)
@@ -128,10 +114,9 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
     function commentClick(e) {
         if(commentsCount > 0){
             setShowComments(!showComments)
-        }else{
-            setAlertMessage('No comments yet this post')
         }
     }
+    
     function shareClick(e) {
         // postLike(e)
     }
@@ -168,7 +153,13 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked, profile }
                     <h6 onClick={iconClick}>Save</h6>
                 </div>
             </div>
-            { width > 780 && <CommentSection comments={comments} showComments={showComments} setShowComments={setShowComments} />}
+            { width > 780 && <CommentSection 
+            comments={commentsState} 
+            setComments={setComments} 
+            showComments={showComments} 
+            setShowComments={setShowComments} 
+            postId={id}
+            />}
         </div>)
 }
 
