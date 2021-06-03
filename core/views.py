@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 import json
+from django.views.decorators.http import require_http_methods
 from .models import Post,Profile,get_user, Comment
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -125,3 +126,20 @@ def addLikeToComment(request,id):
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
 
+@require_http_methods(["POST"])
+def deletePost(request,id):
+    msg = ''
+    try:
+        Post.objects.get(
+            pk=id,
+            user=request.user,
+        ).delete()
+        msg ='Post Deleted'
+    except:
+        msg = "Error"
+
+    resp ={
+        'message' : msg
+    }
+    r = json.dumps(resp)
+    return HttpResponse(r,'application/json')
