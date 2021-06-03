@@ -29,7 +29,13 @@ function App() {
   //TODO remove default user
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`/api/UserProfileModel/?username=admin`)
+      let profileUrl = null
+      if(window.location.hostname==='yourpath-django.herokuapp.com'){
+        profileUrl = '/api/UserProfileModel/'
+      }else{
+        profileUrl = '/api/UserProfileModel/?username=admin'
+      }
+      const res = await fetch(profileUrl)
       const result = await res.json()
       setUser(result[0])
     }
