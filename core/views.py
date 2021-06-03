@@ -5,7 +5,7 @@ from .models import Post,Profile,get_user, Comment
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def index(request):
+def index(request,username):
     if request.user.is_authenticated:
         return render(request, 'index.html')
     else:
