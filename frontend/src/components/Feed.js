@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import Post from './Post'
 import LoadingScreen from '../components/LoadingScreen'
-
-export const FeedContext = React.createContext(null)
 
 function PostContainer() {
     const [posts, setPosts] = useState([])
@@ -67,7 +65,7 @@ function PostContainer() {
                 (
                     posts !== 'error' ?
                         posts.map((post) => {
-                            return <FeedContext.Provider value={{ posts: posts, setPosts: setPosts }} ><Post post={post} key={post.id} /></FeedContext.Provider>
+                            return <Post post={post} key={post.id} posts={posts} setPosts={setPosts} />
                         })
                         :
                         <h5>Something went wrong</h5>

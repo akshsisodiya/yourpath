@@ -3,17 +3,18 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import CommentSection from './CommentSection'
 import { UserContext, MainContextStore } from '../App'
-import {FeedContext} from './Feed'
 import useWindowDimensions from './windowDimension'
 import SetProfilePic from '../components/SetProfilePic'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import csrftoken from './getCsrf'
 
-function PostTop({ user, time, me, profile, setPost }) {
+
+
+function PostTop({ user, me, time, profile, posts, setPosts}) {
     const [postActionShow, setPostActionShow] = useState(false)
     const postActionRef = useRef()
     const postActionButton = useRef()
-    const {posts, setPosts} = useContext(FeedContext)
 
     useEffect(function () {
         if (postActionShow) {
@@ -31,7 +32,7 @@ function PostTop({ user, time, me, profile, setPost }) {
     }
     function postDelete(){
         async function del(id){
-            const res = await axios.post(`/delete-post/${id}/`)
+            const res = await axios.post(`/delete-post/${id}/`,{csrfmiddleware:csrftoken})
             return await res.data
         }
         if(window.confirm("ARE YOU SURE?")){
@@ -40,14 +41,10 @@ function PostTop({ user, time, me, profile, setPost }) {
                 if(data.msg==='Error'){
                     throw data.msg
                 }else{
-
                     let id = user.id
-                    let newPosts = posts
-                    let thisPost = newPosts.find(post=>post.id === id)
-                    let thisPost_index = newPosts.indexOf(thisPost)
+                    let newPosts = posts.filter(post=>post.id != id)                    
                     document.getElementById(`post_${id}`).style.opacity = 0
-                    newPosts.splice(thisPost_index, 1)
-                    setTimeout(()=>{setPosts(newPosts)},500)                    
+                    setTimeout(()=>{setPosts(newPosts)},500)        
                 }
             }catch(err){
                 alert('Post could\'nt be deleted')
@@ -78,7 +75,7 @@ function PostTop({ user, time, me, profile, setPost }) {
     )
 }
 
-function PostActionContainer({ id, user, forwardedRef, me, postDelete }) {
+function PostActionContainer({ id, user, me, forwardedRef, postDelete }) {
     const [isFollowed, setIsFollowed] = useState(me.followers.map(follower=>{return follower.username===user.username}).includes(true))
     function follow() {
         setIsFollowed(!isFollowed)        
@@ -88,7 +85,7 @@ function PostActionContainer({ id, user, forwardedRef, me, postDelete }) {
     return (
         <div className="post-actions-container" id='post-actions-container' ref={forwardedRef}>
             <div className="post-actions">
-                {user.username == me.username ? 
+                {user.username == me.user.username ? 
                 <h6 className="post-action" onClick={postDelete}>Delete</h6>
                 :
                 <h6 className="post-action" onClick={follow} >{isFollowed ? "Unfollow" : "Follow"}</h6>}
@@ -199,10 +196,9 @@ function PostBottom({ id, likes, comments, shares, is_saved, is_liked }) {
         </div>)
 }
 
-function Post({ post:postParam }) {
+function Post({ post:postParam, posts, setPosts }) {
     const userDetail = useContext(UserContext)
     const [post, setPost] = useState(postParam)
-
     const [profile, setProfile] = useState(null)
     
     useEffect(() => {
@@ -232,7 +228,7 @@ function Post({ post:postParam }) {
     }
     return (
         <div className="post" id={`post_${post.id}`} style={{ position: 'relative' }}>
-            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} profile={profile} setPost={setPost} /> : <Empty m='mb-5' p='py-4' />}
+            {post ? <PostTop user={post} me={userDetail} time={post.post_time_stamp} profile={profile} posts={posts} setPosts={setPosts} /> : <Empty m='mb-5' p='py-4' />}
             {post ? <PostMid img={post.post_img} text={post.text} /> : <Empty m='mb-3' p='py-2' rep='3' />}
 
             {post ? <PostBottom
