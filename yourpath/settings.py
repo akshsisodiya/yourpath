@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'administrator',
     'corsheaders',
+    'channels'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -83,7 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'yourpath.wsgi.application'
-
+ASGI_APPLICATION = 'yourpath.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -96,6 +97,16 @@ DATABASES = {
         'PORT':'5432',
         'USER':'msqvvohtxraqeo',
         'PASSWORD':'c02a31dc3761a4a1bae7139400a085654194c402b39d2d0b356a74f82cab0983',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 # Password validation

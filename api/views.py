@@ -42,7 +42,8 @@ class FeedAPI(viewsets.ModelViewSet):
     def get_queryset(self,*args,**kwargs):
         upper = 5 * int(self.request.GET.get('page'))
         lower = upper - 5
-        profile_obj = Profile.objects.get(user=DefaultUser())
+        profile_obj = Profile.objects.get(user=self.request.user) if self.request.user.is_authenticated else Profile.objects.get(user= DefaultUser())
+
         followings_list = list(profile_obj.followings.all())
         return Post.objects.filter(user__in = followings_list).order_by('-pk')[lower:upper]
 
