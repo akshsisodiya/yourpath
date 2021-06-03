@@ -131,7 +131,8 @@ def addLikeToComment(request,id):
     r = json.dumps(resp)
     return HttpResponse(r, "application/json")
 
-@require_http_methods(["POST"])
+#@login_required(login_url='/auth/login/')
+@require_http_methods(["DELETE"])
 def deletePost(request,id):
     msg = ''
     try:
