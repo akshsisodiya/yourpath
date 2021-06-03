@@ -5,6 +5,8 @@ urlpatterns = [
     path('',index),
     path('profile',index),
     path('upload',index),
+    path('profile/<str:username>/',index),
+    path('chat/',index),
     path('add-like/<int:id>/', addlike),
     path('follow/<str:username>/', addFollower),
     path('save-post/<int:id>/', savePost),
