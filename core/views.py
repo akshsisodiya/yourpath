@@ -11,7 +11,12 @@ def index(request,username):
     else:
         return render(request, 'core/home.html')
 
-
+def index(request):
+    if request.user.is_authenticated:
+        return render(request, 'index.html')
+    else:
+        return render(request, 'core/home.html')
+    
 @login_required(login_url='/auth/login/')
 def addFollower(request,username):
     follower_obj = Profile.Manager(username=request.user)
