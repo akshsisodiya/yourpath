@@ -44,9 +44,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     'administrator',
     'corsheaders',
-    'channels'
+    'channels',
+    'graphene_django'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+GRAPHENE = {
+    "SCHEMA": "yourpath.schema.schema"
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
