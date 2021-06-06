@@ -4,16 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.views.decorators.csrf import csrf_exempt
 
-from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('auth/', include('auth.urls')),
     path('api/', include('api.urls')),
-    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 
 ]
 
