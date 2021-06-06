@@ -34,12 +34,12 @@ function UploadPost() {
         const resp = await axios.post("/api/post/", data, {
           "Content-Type": "multipart/form-data",
         });
+        window.location.reload()
         return resp;
       } catch (err) {
         return false;
       }
     }
-    console.log(postImg.rowImage);
     if (postCaption !== null && postCaption !== null && postImg !== null) {
       // const data = {
       //     postimg: postImg.rowImage,
@@ -94,7 +94,7 @@ function UploadPost() {
               textAreaInput={postCaption}
               setTextAreaInput={setPostCaption}
             />
-            <File file={postImg} setFile={setPostImg} />
+            <Files file={postImg} setFile={setPostImg} />
             <button
               type="submit"
               className="btn rounded-pill text-white d-block mx-auto"
@@ -147,7 +147,7 @@ function Text({ textAreaInput, setTextAreaInput }) {
   );
 }
 
-function File({ file, setFile }) {
+function Files({ file, setFile }) {
   function FileSelector({ setFile }) {
     function handleFileChange(e) {
       setFile({
@@ -155,6 +155,14 @@ function File({ file, setFile }) {
         name: e.target.files[0].name,
         rowImage: e.target.files[0],
       });
+    }
+    function urlInputHandler(e) {
+      const file = new File([], String(e.target.value))
+      setFile({
+        url: String(e.target.value),
+        name: String(e.target.value),
+        rowImage: file
+      })
     }
     return (
       <div>
@@ -177,12 +185,15 @@ function File({ file, setFile }) {
           </div>
           <i className="fas fa-images fa-lg text-success mx-2"></i>
         </div>
+        <div className="mb-3 rounded border ">
+          <input type="url" placeholder="or Image URL" className='p-2 url-upload-img' onChange={urlInputHandler} />
+        </div>
       </div>
     );
   }
   function FileShower({ file, setFile }) {
     return (
-      <div className="row border rounded">
+      <div className="row border rounded mb-3">
         <div className="col-3">
           <img src={file.url} className="img-fluid" alt="" />
         </div>

@@ -4,3 +4,9 @@
   display: block;
   resize: none;
 }
+
+.url-upload-img {
+  margin-left: 10px;
+  border: none;
+  outline: none;
+}

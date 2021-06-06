@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="text">text</h1>
+    <input type="text" id="input">
+    <button id="button">Send</button>
+
+    <script>
+
+        var text = document.getElementById('text')
+        var ws = new WebSocket('ws://127.0.0.1:8000/chat/aman/')
+        ws.onopen = (data) => {
+            text.innerHTML("Connected")
+        }
+        if (ws.OPEN == ws.readyState) {
+            ws.onopen()
+        }
+        ws.onmessage = (data) => {
+            text.innerHTML(data)
+        }
+
+    </script>
+</body>
+
+</html>

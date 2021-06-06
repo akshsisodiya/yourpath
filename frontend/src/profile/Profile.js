@@ -134,7 +134,7 @@ function ProfileContent({ data, self }) {
     function Content({ curTab, setCurTab, postData }) {
 
         const [posts, setPosts] = useState(postData.posts)
-        const [savedPosts, setSavedPosts] = useState(postData.posts)
+        const [savedPosts, setSavedPosts] = useState(postData.saved)
         const [allPosts, setAllPosts] = useState({posts:posts, savedPosts:savedPosts})
 
         // useEffect(() => {
