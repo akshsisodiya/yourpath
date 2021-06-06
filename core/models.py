@@ -1,8 +1,10 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils import timezone
 
 # Create your models here.
 
@@ -10,6 +12,8 @@ from django.dispatch import receiver
 def get_user(username):
     return User.objects.get(username=username)
 
+def get_time():
+    return datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE , related_name = "user_comment")
@@ -71,7 +75,7 @@ class Post(models.Model):
     comments = models.ManyToManyField(Comment, related_name="post_comment", blank=True)
     shares = models.ManyToManyField(User, related_name="post_shares", blank=True)
     saved = models.ManyToManyField(User, related_name="post_saved", blank=True)
-    # post_time_stamp = models.DateTimeField()
+    post_time_stamp = models.CharField(default=get_time(),null=True,max_length=10)
 
     class Manager():
         def __init__(self, post):
