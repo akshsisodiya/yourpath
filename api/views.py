@@ -62,10 +62,11 @@ class UploadPost(APIView):
                 post_img=data['postimg'],
                 text=data['caption']
             ).save()
-            return Response({'error': "Upload Failure"})
+            return Response({'success': "Post Uploaded successfully"})
 
         except:
-            return Response({'success': "Post Uploaded successfully"})
+            return Response({'error': "Upload Failure"})
+
 
 
 @method_decorator(csrf_protect, name='dispatch')
