@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from django.shortcuts import HttpResponse, redirect, get_object_or_404, Http404
 from django.http import JsonResponse
 import json
+from django.conf.urls import handler404
 from rest_framework.response import Response
 from .serializers import ProfileSerializer, MiniUserSerializer, PostSerializer
 from django.contrib import auth
@@ -34,7 +35,16 @@ class MiniUserProfileApi(viewsets.ModelViewSet):
     serializer_class = MiniUserSerializer
 
     def get_queryset(self):
-        return Profile.objects.filter(user=get_user(self.request.GET.get('username', self.request.user)))
+        return Profile.objects.filter(user=get_user(self.request.GET.get('username', self.request.user.username)))
+
+class SearchUser(APIView):
+
+    def get(self, request, format=None):
+        qs = Profile.objects.filter(user__username__startswith=self.request.GET.get('query'))
+
+        serializer = MiniUserSerializer(qs,many=True)
+
+        return Response(serializer.data) if qs.exists() else Response({"error":"Not Found"})
 
 class FeedAPI(viewsets.ModelViewSet):
     serializer_class = PostSerializer
@@ -65,7 +75,7 @@ class UploadPost(APIView):
             return Response({'success': "Post Uploaded successfully"})
 
         except:
-            return Response({'error': "Upload Failure"})
+            return Response({'error': "Upload Failure"})    
 
 
 
